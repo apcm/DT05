@@ -38,7 +38,6 @@ public class BoxService {
 	//9.4
 	public Box save(final Box box) {
 		Assert.notNull(box);
-		Assert.notNull(box.getId());
 
 		//Logged user must be a customer/handyworker
 		final Authority a = new Authority();

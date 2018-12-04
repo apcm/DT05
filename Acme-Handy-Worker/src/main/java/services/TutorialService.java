@@ -49,7 +49,6 @@ public class TutorialService {
 		Assert.isTrue(tutorial.getHandyWorker().getUserAccount().equals(user));
 
 		Assert.notNull(tutorial);
-		Assert.notNull(tutorial.getId());
 		Assert.notNull(tutorial.getTitle());
 		Assert.notNull(tutorial.getSummary());
 

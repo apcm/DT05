@@ -1,0 +1,5 @@
+- arreglado findByComplaint de CustomerRepository
+- borrado "complaintsNoReferee" y arreglado complaintsWithNoReferee de ComplaintRepository
+- quitado "autowired" en ReportService de NoteService
+- quitadas queries de NoteRepository
+- borrado todos los assert que comprueben en los save que el id!=0

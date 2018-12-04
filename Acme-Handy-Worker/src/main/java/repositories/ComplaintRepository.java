@@ -16,17 +16,17 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Integer> {
 	Collection<Complaint> findByCustomerId(int customerId);
 
 	//Nueva 36.1
-	@Query("select c from Complaint c join Referee r where c not member of r.complaints")
-	Collection<Complaint> findComplaintsNoReferee();
+	//	@Query("select c from Complaint c, Referee r where c not member of r.complaints")
+	//	Collection<Complaint> findComplaintsNoReferee();
 	//Query que seleccione las complaints sin referee asignado
-	@Query("select r.complaint from Report r join Complaint c where c not member of r.complaint")
+	@Query("select c from Complaint c, Referee r where c not member of r.complaints")
 	Collection<Complaint> findComplaintsWithNoReferee();
 
 	//36.2
 	@Query("select distinct r.complaints from Referee r where r.id=?1")
 	Collection<Complaint> findByRefereeId(int refereeId);
-	
+
 	//37.3
-	@Query("select distinct f1.complaints from HandyWorker h join h.applications a1 join a1.fixUpTasks f1 where h.id=?1")
+	@Query("select distinct f1.complaints from HandyWorker h join h.applications a1 join a1.fixUpTask f1 where h.id=?1")
 	Collection<Complaint> findByHandyWorker(int id);
 }

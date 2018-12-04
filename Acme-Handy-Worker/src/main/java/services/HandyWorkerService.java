@@ -17,7 +17,6 @@ import security.UserAccount;
 import domain.Administrator;
 import domain.Application;
 import domain.Box;
-import domain.Customer;
 import domain.Customisation;
 import domain.Endorsement;
 import domain.Finder;
@@ -114,7 +113,6 @@ public class HandyWorkerService {
 	//9.2
 	public HandyWorker save(final HandyWorker handyWorker) {
 		Assert.notNull(handyWorker);
-		Assert.isTrue(handyWorker.getId() != 0);
 		Assert.isTrue(!handyWorker.getBan());
 
 		//Logged user must be a customer
@@ -182,33 +180,29 @@ public class HandyWorkerService {
 	public Collection<HandyWorker> findAll() {
 		return this.handyWorkerRepository.findAll();
 	}
-	
-	public HandyWorker saveScore(HandyWorker handyWorker,Customisation custo){
+
+	public HandyWorker saveScore(final HandyWorker handyWorker, final Customisation custo) {
 		//Logged user must be an administrator
-				final Authority a = new Authority();
-				final UserAccount user = LoginService.getPrincipal();
-				a.setAuthority(Authority.ADMIN);
-				Assert.isTrue(user.getAuthorities().contains(a));
+		final Authority a = new Authority();
+		final UserAccount user = LoginService.getPrincipal();
+		a.setAuthority(Authority.ADMIN);
+		Assert.isTrue(user.getAuthorities().contains(a));
 		Assert.notNull(handyWorker);
 		Assert.notNull(custo);
-		Integer score=0;
-		
-		List<String> positive=new ArrayList<String>(custo.getPositiveWords());
-		List<String> negative=new ArrayList<String>(custo.getNegativeWords());
-		List<Endorsement> endorsements= new ArrayList<Endorsement>(handyWorker.getEndorsements());
-		
-		for(Endorsement e:endorsements){
-			String text=e.getComment();
-			for(String p:positive){
-				if(text.contains(p)){
+		Integer score = 0;
+
+		final List<String> positive = new ArrayList<String>(custo.getPositiveWords());
+		final List<String> negative = new ArrayList<String>(custo.getNegativeWords());
+		final List<Endorsement> endorsements = new ArrayList<Endorsement>(handyWorker.getEndorsements());
+
+		for (final Endorsement e : endorsements) {
+			final String text = e.getComment();
+			for (final String p : positive)
+				if (text.contains(p))
 					score++;
-				}
-			}
-			for(String n:negative){
-				if(text.contains(n)){
+			for (final String n : negative)
+				if (text.contains(n))
 					score--;
-				}
-			}
 		}
 		handyWorker.setScore(score);
 		return this.handyWorkerRepository.save(handyWorker);

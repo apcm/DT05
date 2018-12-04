@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -28,10 +29,11 @@ public class CustomerService {
 
 	// Repository
 	@Autowired
-	private CustomerRepository customerRepository;
+	private CustomerRepository	customerRepository;
 
 	// Services
-	public AdministratorService administratorService;
+	public AdministratorService	administratorService;
+
 
 	// Constructor
 	public CustomerService() {
@@ -54,11 +56,7 @@ public class CustomerService {
 		c.setAuthority(Authority.CUSTOMER);
 		d.setAuthority(Authority.REFEREE);
 		e.setAuthority(Authority.SPONSOR);
-		Assert.isTrue(!(user.getAuthorities().contains(a)
-				|| user.getAuthorities().contains(b)
-				|| user.getAuthorities().contains(c)
-				|| user.getAuthorities().contains(d) || user.getAuthorities()
-				.contains(e)));
+		Assert.isTrue(!(user.getAuthorities().contains(a) || user.getAuthorities().contains(b) || user.getAuthorities().contains(c) || user.getAuthorities().contains(d) || user.getAuthorities().contains(e)));
 
 		Customer result;
 		result = new Customer();
@@ -106,7 +104,6 @@ public class CustomerService {
 	// 9.2
 	public Customer save(final Customer customer) {
 		Assert.notNull(customer);
-		Assert.isTrue(customer.getId() != 0);
 		Assert.isTrue(!customer.getBan());
 
 		// Logged user must be a customer
@@ -208,7 +205,7 @@ public class CustomerService {
 		return this.customerRepository.findAll();
 	}
 
-	public Customer saveScore(Customer customer, Customisation custo) {
+	public Customer saveScore(final Customer customer, final Customisation custo) {
 		// Logged user must be an administrator
 		final Authority a = new Authority();
 		final UserAccount user = LoginService.getPrincipal();
@@ -218,23 +215,18 @@ public class CustomerService {
 		Assert.notNull(custo);
 		Integer score = 0;
 
-		List<String> positive = new ArrayList<String>(custo.getPositiveWords());
-		List<String> negative = new ArrayList<String>(custo.getNegativeWords());
-		List<Endorsement> endorsements = new ArrayList<Endorsement>(
-				customer.getEndorsements());
+		final List<String> positive = new ArrayList<String>(custo.getPositiveWords());
+		final List<String> negative = new ArrayList<String>(custo.getNegativeWords());
+		final List<Endorsement> endorsements = new ArrayList<Endorsement>(customer.getEndorsements());
 
-		for (Endorsement e : endorsements) {
-			String text = e.getComment();
-			for (String p : positive) {
-				if (text.contains(p)) {
+		for (final Endorsement e : endorsements) {
+			final String text = e.getComment();
+			for (final String p : positive)
+				if (text.contains(p))
 					score++;
-				}
-			}
-			for (String n : negative) {
-				if (text.contains(n)) {
+			for (final String n : negative)
+				if (text.contains(n))
 					score--;
-				}
-			}
 		}
 		customer.setScore(score);
 		return this.customerRepository.save(customer);

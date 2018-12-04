@@ -38,6 +38,7 @@ public class ApplicationServiceTest extends AbstractTest {
 		System.out.println("Antes de crate");
 		super.authenticate("handyWorker");
 		app = this.applicationService.create();
+		System.out.println(app);
 		try {
 
 			app.setMoment(new Date());
@@ -52,7 +53,7 @@ public class ApplicationServiceTest extends AbstractTest {
 			app.setFixUpTask(new FixUpTask());
 			System.out.println("Antes de save");
 			saved = this.applicationService.saveByHandyWorker(app);
-			System.out.println("Después de save");
+			System.out.println(saved);
 			Assert.isTrue(this.applicationService.findAll().contains(saved));
 
 			super.unauthenticate();

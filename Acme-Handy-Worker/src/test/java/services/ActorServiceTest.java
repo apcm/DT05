@@ -13,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Actor;
 import domain.Box;
@@ -39,6 +38,7 @@ public class ActorServiceTest extends AbstractTest {
 		final Collection<SocialProfile> sp1 = new ArrayList<>();
 		final Collection<Box> boxes1 = new ArrayList<>();
 		actor = this.actorService.create();
+		System.out.println(actor);
 		try {
 			super.authenticate("admin");
 			actor.setName("Pepe");
@@ -50,10 +50,12 @@ public class ActorServiceTest extends AbstractTest {
 			actor.setSurname("PepeSurname");
 			actor.setPhotoURL("http://www.urlpepe.com");
 			actor.setSocialProfiles(sp1);
-			actor.setUserAccount(new UserAccount());
+			//actor.setUserAccount(new UserAccount());
 			actor.setBoxes(boxes1);
+			System.out.println(actor);
 
 			saved = this.actorService.save(actor);
+			System.out.println(saved);
 			Assert.isTrue(this.actorService.findAll().contains(saved));
 
 			super.unauthenticate();
@@ -81,8 +83,9 @@ public class ActorServiceTest extends AbstractTest {
 		actor.setSurname("PepeSurname");
 		actor.setPhotoURL("http://www.urlpepe.com");
 		actor.setSocialProfiles(sp1);
-		actor.setUserAccount(new UserAccount());
+		//actor.setUserAccount(new UserAccount());
 		actor.setBoxes(boxes1);
+
 		try {
 			final Actor actor2 = this.actorService.banActor(actor);
 			Assert.isTrue(actor2.getBan() == true);
@@ -109,8 +112,9 @@ public class ActorServiceTest extends AbstractTest {
 		actor.setSurname("PepeSurname");
 		actor.setPhotoURL("http://www.urlpepe.com");
 		actor.setSocialProfiles(sp1);
-		actor.setUserAccount(new UserAccount());
+		//actor.setUserAccount(new UserAccount());
 		actor.setBoxes(boxes1);
+
 		try {
 			final Actor actor2 = this.actorService.unbanActor(actor);
 			Assert.isTrue(actor2.getBan() == false);

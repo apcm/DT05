@@ -82,7 +82,6 @@ public class FixUpTaskService {
 	}
 	public FixUpTask save(final FixUpTask fixUpTask) {
 		Assert.notNull(fixUpTask);
-		Assert.isTrue(fixUpTask.getId() != 0);
 
 		//Logged user must be a customer
 		final Authority a = new Authority();

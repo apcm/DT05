@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -16,7 +14,6 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Finder;
-import domain.FixUpTask;
 import domain.Money;
 import domain.Warranty;
 
@@ -36,11 +33,11 @@ public class FinderServiceTest extends AbstractTest {
 	@Test
 	public void testFinder() {
 		System.out.println("------Test Finder------");
+		super.authenticate("handyWorker");
 		final Finder fin, saved;
-		final Collection<FixUpTask> ft = new ArrayList<>();
 		fin = this.finderService.create();
+		System.out.println(fin);
 		try {
-			super.authenticate("handyWorker");
 			fin.setKeyWord("finder");
 			fin.setCategory("category");
 			fin.setMinPrice(new Money());
@@ -48,7 +45,7 @@ public class FinderServiceTest extends AbstractTest {
 			fin.setStartDate(new Date());
 			fin.setEndDate(new Date());
 			fin.setWarranty(new Warranty());
-			saved = this.finderService.save(fin);
+			saved = this.finderService.saveForTest(fin);
 			Assert.isTrue(this.finderService.findAll().contains(saved));
 
 			//11.2?

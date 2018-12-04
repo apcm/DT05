@@ -42,9 +42,7 @@ public class CustomisationServiceTest extends AbstractTest {
 		ccm.add("VISA");
 		nw.add("shit");
 		pw.add("good");
-		System.out.println("Antes de create");
 		cus = this.customisationService.create();
-		System.out.println("Después de create");
 		try {
 			cus.setSystemName("sn1");
 			cus.setBannerURL("http://www.urlbanner.com");
@@ -57,11 +55,8 @@ public class CustomisationServiceTest extends AbstractTest {
 			cus.setPositiveWords(pw);
 			cus.setFinderDuration(20);
 			cus.setResultsNumber(20);
-			System.out.println("Antes de save: " + cus.getResultsNumber());
 
 			saved = this.customisationService.save(cus);
-
-			System.out.println(saved);
 
 			Assert.isTrue(this.customisationService.findAll().contains(saved));
 

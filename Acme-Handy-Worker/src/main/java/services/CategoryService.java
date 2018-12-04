@@ -4,6 +4,8 @@ package services;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CategoryRepository;
@@ -12,6 +14,8 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Category;
 
+@Service
+@Transactional
 public class CategoryService {
 
 	@Autowired
@@ -39,7 +43,6 @@ public class CategoryService {
 		Assert.isTrue(user.getAuthorities().contains(a));
 
 		Assert.notNull(category);
-		Assert.isTrue(category.getId() != 0);
 
 		Category res;
 		res = this.categoryRepository.save(category);

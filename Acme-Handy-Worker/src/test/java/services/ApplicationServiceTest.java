@@ -14,8 +14,6 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Application;
-import domain.CreditCard;
-import domain.FixUpTask;
 import domain.Money;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,24 +33,27 @@ public class ApplicationServiceTest extends AbstractTest {
 	public void testCreate() {
 		System.out.println("------Test Create------");
 		final Application app, saved, app2, app3;
-		System.out.println("Antes de crate");
 		super.authenticate("handyWorker");
 		app = this.applicationService.create();
+		System.out.println(this.applicationService.findAll());
 		try {
 
 			app.setMoment(new Date());
-			app.setStatus("PENDING");
+			app.setStatus("pending");
 			final Money mon = new Money();
-			mon.setAmount(30.2);
-			mon.setCurrency("euros");
 			app.setOfferedPrice(mon);
+			//			System.out.println(mon);
+			//			System.out.println(mon.getAmount());
+			//			System.out.println(mon.getCurrency());
 			app.setComment("comment");
 			app.setRejectedCause("rejectedCause");
-			app.setCreditCard(new CreditCard());
-			app.setFixUpTask(new FixUpTask());
-			System.out.println("Antes de save");
-			saved = this.applicationService.saveByHandyWorker(app);
-			System.out.println("Después de save");
+			//			app.setCreditCard(new CreditCard());
+			//			app.setFixUpTask(new FixUpTask());
+			//			System.out.println(app.getFixUpTask());
+			System.out.println(app);
+			saved = this.applicationService.save(app);
+			System.out.println(saved);
+			System.out.println(this.applicationService.findAll());
 			Assert.isTrue(this.applicationService.findAll().contains(saved));
 
 			super.unauthenticate();

@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.ArrayList;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -29,17 +31,20 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void testCategory() {
 		System.out.println("------Test Category------");
+		super.authenticate("admin");
 		final Category cat, saved;
 		cat = this.categoryService.create();
 		try {
-			super.authenticate("admin");
 			cat.setName("Category1");
-			cat.setParentCategory(new Category());
+			final ArrayList<Category> cats = new ArrayList<>();
+			cats.addAll(this.categoryService.findAll());
+			final Category cat2 = cats.get(1);
+			cat.setParentCategory(cat2);
 			saved = this.categoryService.save(cat);
 			Assert.isTrue(this.categoryService.findAll().contains(saved));
 
-			this.categoryService.delete(cat);
-			Assert.isNull(this.categoryService.findOne(cat));
+			this.categoryService.delete(saved);
+			Assert.isNull(this.categoryService.findOne(saved));
 
 			super.unauthenticate();
 

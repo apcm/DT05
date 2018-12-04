@@ -39,13 +39,13 @@ public class BoxServiceTest extends AbstractTest {
 		try {
 			super.authenticate("customer");
 			box.setName("Box1");
-			box.setPredefined(true);
+			box.setPredefined(false);
 			box.setMessages(m1);
 			saved = this.boxService.save(box);
 			Assert.isTrue(this.boxService.findAll().contains(saved));
 
-			this.boxService.delete(box);
-			Assert.isNull(this.boxService.findOne(box));
+			this.boxService.delete(saved);
+			Assert.isNull(this.boxService.findOne(saved));
 
 			System.out.println("Success!");
 

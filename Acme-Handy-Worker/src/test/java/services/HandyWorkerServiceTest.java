@@ -2,7 +2,6 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -14,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Application;
 import domain.Box;
@@ -37,6 +35,9 @@ public class HandyWorkerServiceTest extends AbstractTest {
 	@Autowired
 	private HandyWorkerService	handyWorkerService;
 
+	@Autowired
+	private CurriculumService	curriculumService;
+
 
 	//Test
 	@Test
@@ -47,6 +48,9 @@ public class HandyWorkerServiceTest extends AbstractTest {
 		final Collection<Phase> pph = new ArrayList<>();
 		final Collection<Finder> fin = new ArrayList<>();
 		final Collection<Note> notes = new ArrayList<>();
+		final Collection<Box> boxes = new ArrayList<>();
+		final Collection<SocialProfile> sps = new ArrayList<>();
+		final Collection<Endorsement> ends = new ArrayList<>();
 		hw = this.handyWorkerService.create();
 		try {
 			hw.setName("Maria");
@@ -55,35 +59,39 @@ public class HandyWorkerServiceTest extends AbstractTest {
 			hw.setAddress("address");
 			hw.setBan(false);
 			hw.setMiddleName("mnmaria");
-			hw.setSurname("suranemMaria");
+			hw.setSurname("surnameMaria");
 			hw.setPhotoURL("http://www.urlphoto.com");
-			hw.setSocialProfiles(Arrays.asList(new SocialProfile()));
-			hw.setUserAccount(new UserAccount());
-			hw.setBoxes(Arrays.asList(new Box()));
-			hw.setEndorsements(Arrays.asList(new Endorsement()));
+			hw.setSocialProfiles(sps);
+			//			hw.setUserAccount(new UserAccount());
+			hw.setBoxes(boxes);
+			hw.setEndorsements(ends);
 			hw.setScore(2);
 			hw.setMake("make");
 			hw.setApplications(app);
 			hw.setPlannedPhases(pph);
 			hw.setFinders(fin);
 			hw.setNotes(notes);
-			hw.setCurriculum(new Curriculum());
+			final ArrayList<Curriculum> curs = new ArrayList<>();
+			curs.addAll(this.curriculumService.findAll());
+			final Curriculum cur = curs.get(1);
+			hw.setCurriculum(cur);
 
-			super.authenticate("customer");
+			super.authenticate("handyWorker");
 
-			saved = this.handyWorkerService.save(hw);
+			saved = this.handyWorkerService.saveForTest(hw);
 			Assert.isTrue(this.handyWorkerService.findAll().contains(saved));
+			super.unauthenticate();
 
+			super.authenticate("admin");
 			final Collection<HandyWorker> hwwmapps = this.handyWorkerService.handyWorkersWithMoreApplications();
 			Assert.notNull(hwwmapps);
 
-			super.unauthenticate();
-			super.authenticate("admin");
 			final Collection<HandyWorker> topthreehw = this.handyWorkerService.topThreeHandyWorkersByComplaints();
 			Assert.notNull(topthreehw);
 
 			super.unauthenticate();
 
+			//save original
 			//11.2?
 			//37.2?
 

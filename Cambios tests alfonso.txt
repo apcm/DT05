@@ -1,0 +1,25 @@
+- arreglado findByComplaint de CustomerRepository
+- borrado "complaintsNoReferee" y arreglado complaintsWithNoReferee de ComplaintRepository
+- quitado "autowired" en ReportService de NoteService
+- quitadas queries de NoteRepository
+
+04/12
+
+- borrado todos los assert que comprueben en los save que el id!=0
+- ARREGLADO ActorServiceTest (falta SuspiciousActors)
+- ARREGLADO AdministratorServiceTest
+- problemas en ApplicationServiceTest debido a Money y CreditCard (faltan métodos por probar)
+- cambiado el Assert.isNull del predefinded del save de BoxService por notNull
+- ARREGLADO BoxServiceTest
+- quitado assert que comprueba que el id!=0 en categoryService save
+- ARREGLADO CategoryServiceTest
+- ARREGLADO CustomisationServiceTest
+- ARREGLADO EndorsementServiceTest (faltan métodos)
+- añadido saveForTest en FinderService
+- problemas en FinderServiceTest debido a Money (faltan métodos)
+- cambiado en el create de HandyWorkerService "result.setUserAccount(user);" por "result.setUserAccount(newUser);"
+- eliminado comprobación de log en el create de HandyWorkerService
+- cambiado en save de HandyWorkerService en los comentarios "customer" por "handyworker"
+- añadido saveForTest en HandyWorkerService
+- arreglado log en topThreeHandyWorkersByComplaints de HandyWorkerService
+-ARREGLADO HandyWorkerService (faltan métodos)

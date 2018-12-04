@@ -88,7 +88,7 @@ public class EndorsementService {
 
 	public Endorsement saveByCustomer(final Endorsement endorsement) {
 		Assert.notNull(endorsement);
-		Assert.isTrue(endorsement.getId() != 0);
+
 		//Logged user must be a customer
 		final Authority au = new Authority();
 		final UserAccount user = LoginService.getPrincipal();

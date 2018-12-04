@@ -65,7 +65,6 @@ public class MessageService {
 	//9.3
 	public Message save(final Message message) {
 		Assert.notNull(message);
-		Assert.isTrue(message.getId() == 0);
 
 		//Logged user must be a customer/handyworker
 		final Authority a = new Authority();

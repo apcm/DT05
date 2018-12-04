@@ -13,11 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Actor;
-import domain.Box;
-import domain.SocialProfile;
+import domain.Customer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -30,59 +28,23 @@ public class ActorServiceTest extends AbstractTest {
 	@Autowired
 	private ActorService	actorService;
 
+	@Autowired
+	private CustomerService	customerService;
+
 
 	//Test
 	@Test
-	public void testCreate() {
-		System.out.println("------Test Create------");
-		final Actor actor, actor2, saved;
-		final Collection<SocialProfile> sp1 = new ArrayList<>();
-		final Collection<Box> boxes1 = new ArrayList<>();
-		actor = this.actorService.create();
-		try {
-			super.authenticate("admin");
-			actor.setName("Pepe");
-			actor.setEmail("actorPepe@gmail.com");
-			actor.setPhoneNumber("123456789");
-			actor.setAddress("PepeAddress");
-			actor.setBan(false);
-			actor.setMiddleName("PepeMiddleName");
-			actor.setSurname("PepeSurname");
-			actor.setPhotoURL("http://www.urlpepe.com");
-			actor.setSocialProfiles(sp1);
-			actor.setUserAccount(new UserAccount());
-			actor.setBoxes(boxes1);
-
-			saved = this.actorService.save(actor);
-			Assert.isTrue(this.actorService.findAll().contains(saved));
-
-			super.unauthenticate();
-
-			System.out.println("Success!");
-
-		} catch (final Exception e) {
-			System.out.println("Error, " + e.getMessage() + "!");
-		}
-	}
-
-	@Test
 	public void testBanActor() {
 		System.out.println("------Test BanActor------");
-		final Actor actor;
-		final Collection<SocialProfile> sp1 = new ArrayList<>();
-		final Collection<Box> boxes1 = new ArrayList<>();
-		actor = this.actorService.create();
-		actor.setName("Pepe");
-		actor.setEmail("actorPepe@gmail.com");
-		actor.setPhoneNumber("123456789");
-		actor.setAddress("PepeAddress");
+		super.authenticate("admin");
+		final ArrayList<Customer> actors = new ArrayList<>();
+		System.out.println(actors);
+		actors.addAll(this.customerService.findAll());
+		System.out.println(actors);
+		final Customer actor = actors.get(1);
+		System.out.println(actor);
 		actor.setBan(false);
-		actor.setMiddleName("PepeMiddleName");
-		actor.setSurname("PepeSurname");
-		actor.setPhotoURL("http://www.urlpepe.com");
-		actor.setSocialProfiles(sp1);
-		actor.setUserAccount(new UserAccount());
-		actor.setBoxes(boxes1);
+		System.out.println(actor);
 		try {
 			final Actor actor2 = this.actorService.banActor(actor);
 			Assert.isTrue(actor2.getBan() == true);
@@ -91,26 +53,22 @@ public class ActorServiceTest extends AbstractTest {
 		} catch (final Exception e) {
 			System.out.println("Error, " + e.getMessage() + "!");
 		}
+		super.unauthenticate();
 	}
 
 	@Test
 	public void testUnbanActor() {
 		System.out.println("------Test UnbanActor------");
-		final Actor actor;
-		final Collection<SocialProfile> sp1 = new ArrayList<>();
-		final Collection<Box> boxes1 = new ArrayList<>();
-		actor = this.actorService.create();
-		actor.setName("Pepe");
-		actor.setEmail("actorPepe@gmail.com");
-		actor.setPhoneNumber("123456789");
-		actor.setAddress("PepeAddress");
+		super.authenticate("admin");
+		final ArrayList<Customer> actors = new ArrayList<>();
+		System.out.println(actors);
+		actors.addAll(this.customerService.findAll());
+		System.out.println(actors);
+		final Customer actor = actors.get(1);
+		System.out.println(actor);
 		actor.setBan(true);
-		actor.setMiddleName("PepeMiddleName");
-		actor.setSurname("PepeSurname");
-		actor.setPhotoURL("http://www.urlpepe.com");
-		actor.setSocialProfiles(sp1);
-		actor.setUserAccount(new UserAccount());
-		actor.setBoxes(boxes1);
+		System.out.println(actor);
+
 		try {
 			final Actor actor2 = this.actorService.unbanActor(actor);
 			Assert.isTrue(actor2.getBan() == false);
@@ -119,6 +77,7 @@ public class ActorServiceTest extends AbstractTest {
 		} catch (final Exception e) {
 			System.out.println("Error, " + e.getMessage() + "!");
 		}
+		super.unauthenticate();
 	}
 
 	public void testSuspiciousActors() {

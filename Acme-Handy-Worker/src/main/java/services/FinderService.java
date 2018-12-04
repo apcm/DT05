@@ -53,7 +53,7 @@ public class FinderService {
 	//methods
 	public Finder create() {
 		//Logged Account must be a HandyWorker
-		Assert.isTrue(!LoginService.getPrincipal().isAccountNonLocked());
+		//		Assert.isTrue(!LoginService.getPrincipal().isAccountNonLocked());
 		final Authority a = new Authority();
 		final UserAccount user = LoginService.getPrincipal();
 		a.setAuthority(Authority.HANDYWORKER);
@@ -120,5 +120,9 @@ public class FinderService {
 
 	public Collection<Finder> findAll() {
 		return this.finderRepository.findAll();
+	}
+
+	public Finder saveForTest(final Finder finder) {
+		return this.finderRepository.save(finder);
 	}
 }

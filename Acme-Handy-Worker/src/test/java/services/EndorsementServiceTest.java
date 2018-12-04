@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -13,8 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Customer;
 import domain.Endorsement;
-import domain.Endorser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -27,19 +28,27 @@ public class EndorsementServiceTest extends AbstractTest {
 	@Autowired
 	private EndorsementService	endorsementService;
 
+	@Autowired
+	private CustomerService		customerService;
+
 
 	//Test
 	@Test
 	public void testEndorsement() {
 		System.out.println("------Test Endorsement------");
+		super.authenticate("customer");
 		final Endorsement end, saved;
 		end = this.endorsementService.create();
 		try {
 			super.authenticate("customer");
 			end.setComment("comment1");
 			end.setMoment(new Date());
-			end.setSender(new Endorser());
-			end.setRecipient(new Endorser());
+			final ArrayList<Customer> custs = new ArrayList<>();
+			custs.addAll(this.customerService.findAll());
+			final Customer cust = custs.get(1);
+			final Customer cust2 = custs.get(2);
+			end.setSender(cust);
+			end.setRecipient(cust2);
 			saved = this.endorsementService.save(end);
 			Assert.isTrue(this.endorsementService.findAll().contains(saved));
 

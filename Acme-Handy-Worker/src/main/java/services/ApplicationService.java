@@ -88,7 +88,6 @@ public class ApplicationService {
 
 	public Application saveByCustomer(final Application application) {
 		Assert.notNull(application);
-		Assert.isTrue(application.getId() != 0);
 
 		Application res;
 
@@ -127,7 +126,6 @@ public class ApplicationService {
 
 	public Application saveByHandyWorker(final Application application) {
 		Assert.notNull(application);
-		Assert.isTrue(application.getId() != 0);
 
 		Application res;
 

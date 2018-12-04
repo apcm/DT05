@@ -4,11 +4,9 @@ package repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import domain.Note;
+import domain.Curriculum;
 
 @Repository
-public interface NoteRepository extends JpaRepository<Note, Integer> {
-
-	//35.2
+public interface CurriculumRepository extends JpaRepository<Curriculum, Integer> {
 
 }

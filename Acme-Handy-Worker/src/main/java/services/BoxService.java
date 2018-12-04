@@ -38,7 +38,6 @@ public class BoxService {
 	//9.4
 	public Box save(final Box box) {
 		Assert.notNull(box);
-		Assert.notNull(box.getId());
 
 		//Logged user must be a customer/handyworker
 		final Authority a = new Authority();
@@ -50,7 +49,7 @@ public class BoxService {
 
 		//Restrictions
 		Assert.notNull(box.getName());
-		Assert.isNull(box.getPredefined());
+		Assert.notNull(box.getPredefined());
 		if (box.getPredefined() == true)
 			Assert.isTrue(box.getName() == "in" || box.getName() == "out" || box.getName() == "trash" || box.getName() == "spam");
 		final Box res;

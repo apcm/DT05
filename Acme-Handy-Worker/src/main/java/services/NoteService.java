@@ -33,7 +33,6 @@ public class NoteService {
 	@Autowired
 	public RefereeService		refereeService;
 
-	@Autowired
 	public ReportService		reportService;
 
 	@Autowired
@@ -72,7 +71,6 @@ public class NoteService {
 
 	public Note save(final Note note) {
 		Assert.notNull(note);
-		Assert.notNull(note.getId());
 
 		//Logged user must be a customer/referee/handyworker
 		final Authority a = new Authority();

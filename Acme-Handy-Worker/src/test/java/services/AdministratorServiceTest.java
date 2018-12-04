@@ -13,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Administrator;
 import domain.Box;
@@ -35,12 +34,12 @@ public class AdministratorServiceTest extends AbstractTest {
 	@Test
 	public void testCreate() {
 		System.out.println("------Test Create------");
+		super.authenticate("admin");
 		final Administrator admin, saved;
 		final Collection<SocialProfile> sp1 = new ArrayList<>();
 		final Collection<Box> boxes1 = new ArrayList<>();
 		admin = this.administratorService.create();
 		try {
-			super.authenticate("admin");
 
 			admin.setName("Pepe");
 			admin.setEmail("actorPepe@gmail.com");
@@ -51,9 +50,7 @@ public class AdministratorServiceTest extends AbstractTest {
 			admin.setSurname("PepeSurname");
 			admin.setPhotoURL("http://www.urlpepe.com");
 			admin.setSocialProfiles(sp1);
-			admin.setUserAccount(new UserAccount());
 			admin.setBoxes(boxes1);
-
 			saved = this.administratorService.save(admin);
 			Assert.isTrue(this.administratorService.findAll().contains(saved));
 

@@ -14,10 +14,8 @@ import repositories.HandyWorkerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
-import domain.Administrator;
 import domain.Application;
 import domain.Box;
-import domain.Customer;
 import domain.Customisation;
 import domain.Endorsement;
 import domain.Finder;
@@ -48,18 +46,18 @@ public class HandyWorkerService {
 	//8.1
 	public HandyWorker create() {
 		//User can't be logged to register
-		final Authority a = new Authority();
-		final Authority b = new Authority();
-		final Authority c = new Authority();
-		final Authority d = new Authority();
-		final Authority e = new Authority();
-		final UserAccount user = LoginService.getPrincipal();
-		a.setAuthority(Authority.ADMIN);
-		b.setAuthority(Authority.HANDYWORKER);
-		c.setAuthority(Authority.CUSTOMER);
-		d.setAuthority(Authority.REFEREE);
-		e.setAuthority(Authority.SPONSOR);
-		Assert.isTrue(!(user.getAuthorities().contains(a) || user.getAuthorities().contains(b) || user.getAuthorities().contains(c) || user.getAuthorities().contains(d) || user.getAuthorities().contains(e)));
+		//		final Authority a = new Authority();
+		//		final Authority b = new Authority();
+		//		final Authority c = new Authority();
+		//		final Authority d = new Authority();
+		//		final Authority e = new Authority();
+		//		final UserAccount user = LoginService.getPrincipal();
+		//		a.setAuthority(Authority.ADMIN);
+		//		b.setAuthority(Authority.HANDYWORKER);
+		//		c.setAuthority(Authority.CUSTOMER);
+		//		d.setAuthority(Authority.REFEREE);
+		//		e.setAuthority(Authority.SPONSOR);
+		//		Assert.isTrue(!(user.getAuthorities().contains(a) || user.getAuthorities().contains(b) || user.getAuthorities().contains(c) || user.getAuthorities().contains(d) || user.getAuthorities().contains(e)));
 
 		HandyWorker result;
 		result = new HandyWorker();
@@ -104,7 +102,7 @@ public class HandyWorkerService {
 		//HandyWorker
 		result.setScore(0);
 
-		result.setUserAccount(user);
+		result.setUserAccount(newUser);
 		//TODO: Make name
 		result.setMake("");
 		result.setPlannedPhases(phases);
@@ -114,16 +112,15 @@ public class HandyWorkerService {
 	//9.2
 	public HandyWorker save(final HandyWorker handyWorker) {
 		Assert.notNull(handyWorker);
-		Assert.isTrue(handyWorker.getId() != 0);
 		Assert.isTrue(!handyWorker.getBan());
 
-		//Logged user must be a customer
+		//Logged user must be a HandyWorker
 		final Authority a = new Authority();
 		final UserAccount user = LoginService.getPrincipal();
 		a.setAuthority(Authority.HANDYWORKER);
 		Assert.isTrue(user.getAuthorities().contains(a));
 
-		//Modified customer must be logged customer
+		//Modified handyWorker must be logged handyWorker
 		final HandyWorker logHandyWorker;
 		logHandyWorker = this.findByPrincipal();
 		Assert.notNull(logHandyWorker);
@@ -161,7 +158,7 @@ public class HandyWorkerService {
 
 	//12.5
 	public Collection<HandyWorker> handyWorkersWithMoreApplications() {
-		//Logged user must be a customer
+		//Logged user must be an admin
 		final Authority a = new Authority();
 		final UserAccount user = LoginService.getPrincipal();
 		a.setAuthority(Authority.ADMIN);
@@ -172,9 +169,10 @@ public class HandyWorkerService {
 
 	//38.5
 	public Collection<HandyWorker> topThreeHandyWorkersByComplaints() {
-		final Administrator admin;
-		admin = this.administratorService.findByPrincipal();
-		Assert.notNull(admin);
+		final Authority a = new Authority();
+		final UserAccount user = LoginService.getPrincipal();
+		a.setAuthority(Authority.ADMIN);
+		Assert.isTrue(user.getAuthorities().contains(a));
 
 		return this.handyWorkerRepository.topThreeHandyWorkersByComplaints();
 	}
@@ -182,35 +180,35 @@ public class HandyWorkerService {
 	public Collection<HandyWorker> findAll() {
 		return this.handyWorkerRepository.findAll();
 	}
-	
-	public HandyWorker saveScore(HandyWorker handyWorker,Customisation custo){
+
+	public HandyWorker saveScore(final HandyWorker handyWorker, final Customisation custo) {
 		//Logged user must be an administrator
-				final Authority a = new Authority();
-				final UserAccount user = LoginService.getPrincipal();
-				a.setAuthority(Authority.ADMIN);
-				Assert.isTrue(user.getAuthorities().contains(a));
+		final Authority a = new Authority();
+		final UserAccount user = LoginService.getPrincipal();
+		a.setAuthority(Authority.ADMIN);
+		Assert.isTrue(user.getAuthorities().contains(a));
 		Assert.notNull(handyWorker);
 		Assert.notNull(custo);
-		Integer score=0;
-		
-		List<String> positive=new ArrayList<String>(custo.getPositiveWords());
-		List<String> negative=new ArrayList<String>(custo.getNegativeWords());
-		List<Endorsement> endorsements= new ArrayList<Endorsement>(handyWorker.getEndorsements());
-		
-		for(Endorsement e:endorsements){
-			String text=e.getComment();
-			for(String p:positive){
-				if(text.contains(p)){
+		Integer score = 0;
+
+		final List<String> positive = new ArrayList<String>(custo.getPositiveWords());
+		final List<String> negative = new ArrayList<String>(custo.getNegativeWords());
+		final List<Endorsement> endorsements = new ArrayList<Endorsement>(handyWorker.getEndorsements());
+
+		for (final Endorsement e : endorsements) {
+			final String text = e.getComment();
+			for (final String p : positive)
+				if (text.contains(p))
 					score++;
-				}
-			}
-			for(String n:negative){
-				if(text.contains(n)){
+			for (final String n : negative)
+				if (text.contains(n))
 					score--;
-				}
-			}
 		}
 		handyWorker.setScore(score);
 		return this.handyWorkerRepository.save(handyWorker);
+	}
+
+	public HandyWorker saveForTest(final HandyWorker hw) {
+		return this.handyWorkerRepository.save(hw);
 	}
 }

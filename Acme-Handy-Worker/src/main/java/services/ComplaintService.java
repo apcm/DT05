@@ -44,7 +44,6 @@ public class ComplaintService {
 	public HandyWorkerService	handyWorkerService;
 
 	//Generador de tickers
-	@Autowired
 	public TickerGenerator		tickerGenerator;
 
 
@@ -117,7 +116,7 @@ public class ComplaintService {
 		referee = this.refereeService.findByPrincipal();
 		Assert.notNull(referee);
 
-		final List<Complaint> res = new ArrayList<Complaint>(this.complaintRepository.findComplaintsNoReferee());
+		final List<Complaint> res = new ArrayList<Complaint>(this.complaintRepository.findComplaintsWithNoReferee());
 
 		return res;
 

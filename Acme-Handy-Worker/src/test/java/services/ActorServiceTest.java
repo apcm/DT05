@@ -80,11 +80,12 @@ public class ActorServiceTest extends AbstractTest {
 		super.unauthenticate();
 	}
 
+	@Test
 	public void testSuspiciousActors() {
-		final Collection<Actor> SuspActors;
-		//TODO
+		super.authenticate("admin");
 		try {
-
+			final Collection<Actor> sus = this.actorService.suspiciousActors();
+			Assert.notNull(sus);
 			System.out.println("Success!");
 		} catch (final Exception e) {
 			System.out.println("Error, " + e.getMessage() + "!");

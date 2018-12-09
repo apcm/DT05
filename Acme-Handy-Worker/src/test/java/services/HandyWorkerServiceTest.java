@@ -13,6 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
+import security.LoginService;
+import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Application;
 import domain.Box;
@@ -90,11 +92,22 @@ public class HandyWorkerServiceTest extends AbstractTest {
 			Assert.notNull(topthreehw);
 
 			super.unauthenticate();
+			super.authenticate("handyWorker");
+			//save
+			System.out.println("Test save");
+			final UserAccount uaHw = LoginService.getPrincipal();
+			System.out.println(uaHw);
+			final HandyWorker hwForSave = this.handyWorkerService.findByUserAccount(uaHw);
+			System.out.println(hwForSave);
+			hwForSave.setName("ejemplo");
+			final HandyWorker savedHw = this.handyWorkerService.save(hwForSave);
+			Assert.isTrue(this.handyWorkerService.findAll().contains(savedHw));
+			System.out.println(this.handyWorkerService.findByPrincipal().getName());
 
-			//save original
 			//11.2?
 			//37.2?
 
+			super.unauthenticate();
 			System.out.println("Success!");
 
 		} catch (final Exception e) {

@@ -126,6 +126,13 @@
 					<ref bean="phase1"/>
 			</list>
 		</property>
+		<property name="endorsements">
+			<list>
+				<ref bean="endorsement1"/>
+				<ref bean="endorsement16"/>
+				<ref bean="endorsement17"/>
+			</list>
+		</property>
 	</bean>
 	
 		<bean id="handyWorker2" class="domain.HandyWorker">
@@ -779,7 +786,10 @@
 		<!-- Endorser relationships -->
 		<property name="endorsements">
 			<list>
-				
+				<ref bean="endorsement4"/>
+				<ref bean="endorsement14"/>
+				<ref bean="endorsement17"/>
+				<ref bean="endorsement19"/>
 			</list>
 		</property>
 		

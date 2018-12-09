@@ -114,6 +114,8 @@ public class EndorsementService {
 
 		boolean checkApp = false;
 		final Collection<Application> applicationsHandyWorker = this.applicationService.findByHandyWorker();
+		System.out.println("las apps de hw");
+		System.out.println(applicationsHandyWorker);
 		for (final Application a : applicationsHandyWorker)
 			if (applicationsCustomer.contains(a)) {
 				checkApp = true;

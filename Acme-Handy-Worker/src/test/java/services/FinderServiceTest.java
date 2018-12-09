@@ -48,8 +48,11 @@ public class FinderServiceTest extends AbstractTest {
 			saved = this.finderService.saveForTest(fin);
 			Assert.isTrue(this.finderService.findAll().contains(saved));
 
-			//11.2?
-			//37.2?
+			//saveResultsFixUpTasks
+			final Finder finSRFUT = this.finderService.finderById(2391);
+			System.out.println("Finder: " + finSRFUT);
+			final Finder fin2 = this.finderService.saveResultsFixUpTasks(finSRFUT);
+			Assert.notNull(fin2);
 
 			super.unauthenticate();
 			System.out.println("Success!");

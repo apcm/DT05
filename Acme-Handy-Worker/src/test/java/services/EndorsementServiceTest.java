@@ -2,6 +2,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -52,7 +53,69 @@ public class EndorsementServiceTest extends AbstractTest {
 			saved = this.endorsementService.save(end);
 			Assert.isTrue(this.endorsementService.findAll().contains(saved));
 
-			//findBy, saveBy y delteBy de Customer y HadnyWorker
+			//findByCustomer
+			System.out.println("Test findByCustomer");
+			final Collection<Endorsement> endsCust = this.endorsementService.findByCustomer();
+			System.out.println(endsCust);
+			Assert.notNull(endsCust);
+
+			//saveByCustomer
+			System.out.println("Test saveByCustomer");
+			final ArrayList<Endorsement> sbc = new ArrayList<>();
+			sbc.addAll(endsCust);
+			final Endorsement endCust = sbc.get(1);
+			System.out.println(endCust.getComment());
+			endCust.setComment("ejemplo");
+			final Endorsement endSavedByCust = this.endorsementService.saveByCustomer(endCust);
+			Assert.notNull(endSavedByCust);
+			final Collection<Endorsement> endsCust2 = this.endorsementService.findByCustomer();
+			final ArrayList<Endorsement> sbc2 = new ArrayList<>();
+			sbc2.addAll(endsCust2);
+			final Endorsement endCust2 = sbc2.get(1);
+			System.out.println(endCust2.getComment());
+
+			//deleteByCustomer
+			final ArrayList<Endorsement> copiaEndsCust = new ArrayList<Endorsement>();
+			copiaEndsCust.addAll(endsCust);
+			final Endorsement endCustDel = copiaEndsCust.get(1);
+			System.out.println("Endorsement para delete: " + endCustDel);
+			this.endorsementService.deleteByCustomer(endCustDel);
+			final Collection<Endorsement> deleteList = this.endorsementService.findByCustomer();
+			System.out.println("DeleteList: " + deleteList);
+			Assert.isTrue(!deleteList.contains(endCustDel));
+
+			//			super.unauthenticate();
+			//			super.authenticate("handyWorker");
+			//			//findByHandyWorker
+			//			System.out.println("Test findByHandyWorker");
+			//			final Collection<Endorsement> endsHw = this.endorsementService.findByHandyWorker();
+			//			System.out.println(endsHw);
+			//			Assert.notNull(endsHw);
+
+			//			//saveByHandyWorker
+			//			System.out.println("Test saveByHandyWorker");
+			//			final ArrayList<Endorsement> sbh = new ArrayList<>();
+			//			sbh.addAll(endsHw);
+			//			final Endorsement endHw = sbh.get(1);
+			//			System.out.println(endHw.getComment());
+			//			endHw.setComment("ejemplo");
+			//			final Endorsement endSavedByHw = this.endorsementService.saveByCustomer(endHw);
+			//			Assert.notNull(endSavedByHw);
+			//			final Collection<Endorsement> endsHw2 = this.endorsementService.findByCustomer();
+			//			final ArrayList<Endorsement> sbh2 = new ArrayList<>();
+			//			sbh2.addAll(endsHw2);
+			//			final Endorsement endHw2 = sbh2.get(1);
+			//			System.out.println(endHw2.getComment());
+			//
+			//			//deleteByCustomer
+			//			final ArrayList<Endorsement> copiaEndsHw = new ArrayList<Endorsement>();
+			//			copiaEndsHw.addAll(endsHw);
+			//			final Endorsement endHwDel = copiaEndsHw.get(1);
+			//			System.out.println("Endorsement para delete: " + endHwDel);
+			//			this.endorsementService.deleteByCustomer(endHwDel);
+			//			final Collection<Endorsement> deleteListHw = this.endorsementService.findByCustomer();
+			//			System.out.println("DeleteListHw: " + deleteListHw);
+			//			Assert.isTrue(!deleteListHw.contains(endHwDel));
 
 			super.unauthenticate();
 			System.out.println("Success!");

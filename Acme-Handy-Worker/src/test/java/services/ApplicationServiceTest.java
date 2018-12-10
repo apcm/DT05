@@ -3,6 +3,8 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.transaction.Transactional;
 
@@ -16,6 +18,7 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Application;
 import domain.Customer;
+import domain.FixUpTask;
 import domain.HandyWorker;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,6 +37,9 @@ public class ApplicationServiceTest extends AbstractTest {
 
 	@Autowired
 	private HandyWorkerService	handyWorkerService;
+
+	@Autowired
+	private FixUpTaskService	fixUpTaskService;
 
 
 	//Test
@@ -101,53 +107,90 @@ public class ApplicationServiceTest extends AbstractTest {
 			System.out.println(appsHw);
 			Assert.notNull(appsHw);
 
-			//			//saveByHandyWorker
-			//			final ArrayList<Application> sbc = new ArrayList<>();
-			//			sbc.addAll(appsCust);
-			//			final Application appCust = sbc.get(1);
-			//			System.out.println(appCust.getComment());
-			//			appCust.setComment("ejemplo");
-			//			final Application appSavedByCust = this.applicationService.saveByCustomer(appCust);
-			//			Assert.notNull(appSavedByCust);
-			//			final Collection<Application> appsCust2 = this.applicationService.findByCustomer();
-			//			final ArrayList<Application> sbc2 = new ArrayList<>();
-			//			sbc2.addAll(appsCust2);
-			//			final Application appCust2 = sbc2.get(1);
-			//			System.out.println(appCust2.getComment());
+			//saveByHandyWorker
+			System.out.println("Test saveByHandyWorker");
+			final ArrayList<Application> sbhw = new ArrayList<>();
+			sbhw.addAll(appsHw);
+			final Application appHw = sbhw.get(0);
+			System.out.println(appHw.getComment());
+			appHw.setComment("ejemploHw");
+			final Application appSavedByHw = this.applicationService.saveByHandyWorker(appHw);
+			Assert.notNull(appSavedByHw);
+			final Collection<Application> appsHw2 = this.applicationService.findByHandyWorker();
+			final ArrayList<Application> sbhw2 = new ArrayList<>();
+			sbhw2.addAll(appsHw2);
+			final Application appHw2 = sbhw2.get(0);
+			System.out.println(appHw2.getComment());
 
-			//
-			//			super.authenticate("admin");
-			//
-			//			app2 = app;
-			//			app2.setStatus("ACCEPTED");
-			//			final Application newApp2 = this.applicationService.save(app2);
-			//
-			//			app3 = app;
-			//			app3.setStatus("REJECTED");
-			//			final Application newApp3 = this.applicationService.save(app3);
-			//
-			//			final double pendingApps = this.applicationService.pendingApplications();
-			//			Assert.isTrue(pendingApps > 0);
-			//
-			//			final double acceptedApps = this.applicationService.pendingApplications();
-			//			Assert.isTrue(acceptedApps > 0);
-			//
-			//			final double rejectedApps = this.applicationService.pendingApplications();
-			//			Assert.isTrue(rejectedApps > 0);
-			//			super.unauthenticate();
+			super.unauthenticate();
+
+			//other methods
+			super.authenticate("admin");
+
+			final ArrayList<Application> everyApp = new ArrayList<>();
+			everyApp.addAll(this.applicationService.findAll());
+			final Application appOthers = everyApp.get(0);
+			app2 = appOthers;
+			app2.setStatus("accepted");
+			final Application newApp2 = this.applicationService.save(app2);
+
+			System.out.println("App2 saved");
+
+			app3 = appOthers;
+			app3.setStatus("rejected");
+			final Application newApp3 = this.applicationService.save(app3);
+
+			System.out.println("App3 saved");
+
+			final double pendingApps = this.applicationService.pendingApplications();
+			Assert.isTrue(pendingApps > 0);
+
+			System.out.println("pendingApplications Working");
+
+			final double acceptedApps = this.applicationService.acceptedApplications();
+			Assert.isTrue(acceptedApps > 0);
+
+			System.out.println("acceptedApplications Working");
+
+			final double rejectedApps = this.applicationService.rejectedApplications();
+			Assert.isTrue(rejectedApps > 0);
+
+			System.out.println("rejectedApplications Working");
+
+			super.unauthenticate();
+
 			//			super.authenticate("customer");
-			//			final Date date = new GregorianCalendar(2012, 2, 2).getTime();
-			//			newApp2.setMoment(date);
+			final Date date = new GregorianCalendar(2012, 2, 2).getTime();
+			final Application appElapsed = appOthers;
+			final FixUpTask fixUpTaskElapsed = appElapsed.getFixUpTask();
+			System.out.println("Original time: " + fixUpTaskElapsed.getEndDate());
+			appElapsed.setStatus("pending");
+			fixUpTaskElapsed.setEndDate(date);
+			System.out.println("Elapsed Time: " + fixUpTaskElapsed.getEndDate());
+			System.out.println("Status: " + appElapsed.getStatus());
+			final Application newApp4 = this.applicationService.save(appElapsed);
 			//			final Application newApp4 = this.applicationService.saveByCustomer(app2);
 			//			super.unauthenticate();
-			//			super.authenticate("admin");
-			//			final double elapsedApps = this.applicationService.elapsedApplications();
-			//			Assert.isTrue(elapsedApps > 0);
-			//
-			//			final ArrayList<Object> offPStats = this.applicationService.offeredPriceStatisctics();
-			//			Assert.notNull(offPStats);
-			//
-			//			super.unauthenticate();
+			final FixUpTask savedElapsedFUT = this.fixUpTaskService.saveForAppTest(fixUpTaskElapsed);
+
+			System.out.println("Elapsed date saved: " + newApp4.getFixUpTask().getEndDate());
+
+			System.out.println("App saved with elapsed time: Status: " + newApp4.getStatus() + ", Moment: " + savedElapsedFUT.getEndDate());
+
+			super.authenticate("admin");
+			final double elapsedApps = this.applicationService.elapsedApplications();
+			System.out.println("Elapsed Applications: " + elapsedApps);
+			Assert.isTrue(elapsedApps > 0);
+
+			System.out.println("elapsedApplications Working");
+
+			final ArrayList<Object> offPStats = this.applicationService.offeredPriceStatisctics();
+			System.out.println("OfferesPriceStatistics: " + offPStats);
+			Assert.notNull(offPStats);
+
+			System.out.println("offeredPriceStatistics Working");
+
+			super.unauthenticate();
 
 			System.out.println("Success!");
 

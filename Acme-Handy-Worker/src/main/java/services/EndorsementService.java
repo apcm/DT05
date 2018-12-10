@@ -105,17 +105,15 @@ public class EndorsementService {
 		//Recipient must be a handy worker who has been involved
 		//in any of his or her fix-up tasks
 		//TODO: Comprobar que el recipient es un handy worker
-		final Endorser recipient;
-		recipient = endorsement.getRecipient();
+		final HandyWorker recipient;
+		recipient = (HandyWorker) endorsement.getRecipient();
 		final Collection<FixUpTask> fixUpTasks = this.fixUpTaskService.findByCustomer();
 		final List<Application> applicationsCustomer = new ArrayList<Application>();
 		for (final FixUpTask f : fixUpTasks)
 			applicationsCustomer.addAll(f.getApplications());
 
 		boolean checkApp = false;
-		final Collection<Application> applicationsHandyWorker = this.applicationService.findByHandyWorker();
-		System.out.println("las apps de hw");
-		System.out.println(applicationsHandyWorker);
+		final Collection<Application> applicationsHandyWorker = this.applicationService.findByHandyWorkerForEndorsementService(recipient);
 		for (final Application a : applicationsHandyWorker)
 			if (applicationsCustomer.contains(a)) {
 				checkApp = true;
@@ -149,15 +147,15 @@ public class EndorsementService {
 		//Recipient must be a handy worker who has been involved
 		//in any of his or her fix-up tasks
 		//TODO: Comprobar que el recipient es un handy worker
-		final Endorser recipient;
-		recipient = endorsement.getRecipient();
+		final HandyWorker recipient;
+		recipient = (HandyWorker) endorsement.getRecipient();
 		final Collection<FixUpTask> fixUpTasks = this.fixUpTaskService.findByCustomer();
 		final List<Application> applicationsCustomer = new ArrayList<Application>();
 		for (final FixUpTask f : fixUpTasks)
 			applicationsCustomer.addAll(f.getApplications());
 
 		boolean checkApp = false;
-		final Collection<Application> applicationsHandyWorker = this.applicationService.findByHandyWorker();
+		final Collection<Application> applicationsHandyWorker = this.applicationService.findByHandyWorkerForEndorsementService(recipient);
 		for (final Application a : applicationsHandyWorker)
 			if (applicationsCustomer.contains(a)) {
 				checkApp = true;
@@ -204,15 +202,15 @@ public class EndorsementService {
 
 		//Endorsement must be about a customer for whom he or she's worked
 		//TODO: Comprobar que el recipient es un customer
-		final Endorser recipient;
-		recipient = endorsement.getRecipient();
+		final Customer recipient;
+		recipient = (Customer) endorsement.getRecipient();
 		final Collection<Application> applicationsHandy = this.applicationService.findByHandyWorker();
 		final List<FixUpTask> fixUpTaskHandy = new ArrayList<FixUpTask>();
 		for (final Application a : applicationsHandy)
 			fixUpTaskHandy.add(a.getFixUpTask());
 
 		boolean checkApp = false;
-		final Collection<FixUpTask> fixUpTaskCustomer = this.fixUpTaskService.findByCustomer();
+		final Collection<FixUpTask> fixUpTaskCustomer = this.fixUpTaskService.findByCustomerForEndorsementService(recipient);
 		for (final FixUpTask f : fixUpTaskCustomer)
 			if (fixUpTaskHandy.contains(f)) {
 				checkApp = true;
@@ -231,30 +229,30 @@ public class EndorsementService {
 		Assert.isTrue(endorsement.getId() != 0);
 		Assert.isTrue(this.endorsementRepository.exists(endorsement.getId()));
 
-		//Logged user must be a customer
+		//Logged user must be a handyWorker
 		final Authority au = new Authority();
 		final UserAccount user = LoginService.getPrincipal();
-		au.setAuthority(Authority.CUSTOMER);
+		au.setAuthority(Authority.HANDYWORKER);
 		Assert.isTrue(user.getAuthorities().contains(au));
 
 		//Logged user must be endorsement's sender
-		final Customer sender;
-		sender = this.customerService.findByPrincipal();
+		final HandyWorker sender;
+		sender = this.handyWorkerService.findByPrincipal();
 		Assert.notNull(sender);
 		Assert.notNull(sender.getId());
 		Assert.isTrue(sender.equals(endorsement.getSender()));
 
 		//Endorsement must be about a customer for whom he or she's worked
 		//TODO: Comprobar que el recipient es un customer
-		final Endorser recipient;
-		recipient = endorsement.getRecipient();
+		final Customer recipient;
+		recipient = (Customer) endorsement.getRecipient();
 		final Collection<Application> applicationsHandy = this.applicationService.findByHandyWorker();
 		final List<FixUpTask> fixUpTaskHandy = new ArrayList<FixUpTask>();
 		for (final Application a : applicationsHandy)
 			fixUpTaskHandy.add(a.getFixUpTask());
 
 		boolean checkApp = false;
-		final Collection<FixUpTask> fixUpTaskCustomer = this.fixUpTaskService.findByCustomer();
+		final Collection<FixUpTask> fixUpTaskCustomer = this.fixUpTaskService.findByCustomerForEndorsementService(recipient);
 		for (final FixUpTask f : fixUpTaskCustomer)
 			if (fixUpTaskHandy.contains(f)) {
 				checkApp = true;

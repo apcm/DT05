@@ -92,6 +92,55 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount8" class="security.UserAccount">
+		<property name="username" value="handyWorker2" />
+		<property name="password" value="1b3231655cebb7a1f778eddf27d254ct" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="HANDYWORKER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount9" class="security.UserAccount">
+		<property name="username" value="handyWorker3" />
+		<property name="password" value="1b3231655becb7a1f783eddf27d254ct" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="HANDYWORKER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount10" class="security.UserAccount">
+		<property name="username" value="handyWorker4" />
+		<property name="password" value="1b3231634cebb7a1f783eddf27d254ct" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="HANDYWORKER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount11" class="security.UserAccount">
+		<property name="username" value="handyWorker5" />
+		<property name="password" value="1b3231655cebb1a7f783eddf27d254ii" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="HANDYWORKER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
 
 	<!-- HANDYWORKERS -->
 	<bean id="handyWorker1" class="domain.HandyWorker">
@@ -113,7 +162,7 @@
 		<property name="curriculum" ref="curriculum1"/>
 		<property name="applications">
 			<list>
-				<ref bean="Application1"/>
+				<ref bean="Application2"/>
 			</list>
 		</property>
 		<property name="finders">
@@ -138,7 +187,7 @@
 		<bean id="handyWorker2" class="domain.HandyWorker">
 		<property name="name" value="Lucía"/>
 		<property name="make" value="LuciaEHijos"/>
-		<property name="userAccount" ref="userAccount4"/>
+		<property name="userAccount" ref="userAccount8"/>
 		<property name="email" value="luciaGutierrez@gmail.com"/>
 		<property name="phoneNumber" value="723457688"/>
 		<property name="score" value="0"/>
@@ -155,7 +204,7 @@
 		</property>
 		<property name="applications">
 			<list>
-					<ref bean="Application2"/>
+					<ref bean="Application3"/>
 			</list>
 		</property>
 		<property name="finders">
@@ -175,7 +224,7 @@
 		<property name="name" value="Jaime"/>
 		<property name="score" value="0"/>
 		<property name="make" value="JaimeEHijos"/>
-		<property name="userAccount" ref="userAccount4"/>
+		<property name="userAccount" ref="userAccount9"/>
 		<property name="email" value="jaimeOliva@gmail.com"/>
 		<property name="phoneNumber" value="726337865"/>
 		<property name="address" value="C/Perla, 34, Sevilla, España"/>
@@ -191,7 +240,7 @@
 		</property>
 		<property name="applications">
 			<list> 
-			<ref bean="Application3"/>	
+			<ref bean="Application1"/>	
 			</list>
 		</property>
 		<property name="finders">
@@ -210,7 +259,7 @@
 		<property name="name" value="Carlos"/>
 		<property name="score" value="0"/>
 		<property name="make" value="CarlosSA"/>
-		<property name="userAccount" ref="userAccount4"/>
+		<property name="userAccount" ref="userAccount10"/>
 		<property name="email" value="carlosRosas@gmail.com"/>
 		<property name="phoneNumber" value="786337865"/>
 		<property name="address" value="C/Granada, 24, Madrid, España"/>
@@ -246,7 +295,7 @@
 		<property name="name" value="Lola"/>
 		<property name="score" value="0"/>
 		<property name="make" value="BFixes"/>
-		<property name="userAccount" ref="userAccount4"/>
+		<property name="userAccount" ref="userAccount11"/>
 		<property name="email" value="lolaLimones@gmail.com"/>
 		<property name="phoneNumber" value="786337865"/>
 		<property name="address" value="C/La Raza, 21, Madrid, España"/>
@@ -751,7 +800,7 @@
 		
 		<property name="fixUpTasks">
 			<list>
-				<ref bean="FixUpTask1"/>
+				<ref bean="FixUpTask3"/>
 			</list>
 		</property>
 	</bean>
@@ -788,8 +837,6 @@
 			<list>
 				<ref bean="endorsement4"/>
 				<ref bean="endorsement14"/>
-				<ref bean="endorsement17"/>
-				<ref bean="endorsement19"/>
 			</list>
 		</property>
 		
@@ -798,7 +845,7 @@
 		<property name="fixUpTasks">
 			<list>
 				<ref bean="FixUpTask2"/>
-				<ref bean="FixUpTask3"/>
+				<ref bean="FixUpTask1"/>
 			</list>
 		</property>
 	</bean>
@@ -1875,7 +1922,7 @@
   <property name="comment" value="comment16" /> 
   <property name="moment" value="15/06/2015" /> 
   <property name="sender" ref="handyWorker1" /> 
-  <property name="recipient" ref="Customer1" /> 
+  <property name="recipient" ref="Customer2" /> 
   </bean>
  <bean id="endorsement17" class="domain.Endorsement">
   <property name="comment" value="comment17" /> 

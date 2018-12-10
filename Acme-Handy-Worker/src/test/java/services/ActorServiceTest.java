@@ -87,6 +87,7 @@ public class ActorServiceTest extends AbstractTest {
 			final Collection<Actor> sus = this.actorService.suspiciousActors();
 			Assert.notNull(sus);
 			System.out.println("Success!");
+			super.unauthenticate();
 		} catch (final Exception e) {
 			System.out.println("Error, " + e.getMessage() + "!");
 		}

@@ -162,15 +162,10 @@ public class ApplicationService {
 		a.setAuthority(Authority.HANDYWORKER);
 		Assert.isTrue(user.getAuthorities().contains(a));
 
-		System.out.println("hasta aquí si");
-
 		//Logged handyWorker
 		final HandyWorker handyWorker = this.handyWorkerService.findByPrincipal();
-		System.out.println(handyWorker.getId());
 		Assert.notNull(handyWorker);
 		Assert.notNull(handyWorker.getId());
-
-		System.out.println("esto sí");
 
 		res = this.applicationRepository.findByHandyWorkerId(handyWorker.getId());
 		return res;
@@ -234,5 +229,13 @@ public class ApplicationService {
 
 	public Collection<Application> findAll() {
 		return this.applicationRepository.findAll();
+	}
+
+	//support method for saveByCustomer in EndorsementService
+	public Collection<Application> findByHandyWorkerForEndorsementService(final HandyWorker hw) {
+		Collection<Application> res;
+
+		res = this.applicationRepository.findByHandyWorkerId(hw.getId());
+		return res;
 	}
 }

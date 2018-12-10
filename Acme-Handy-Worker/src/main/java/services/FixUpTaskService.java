@@ -271,4 +271,13 @@ public class FixUpTaskService {
 
 		return this.fixUpTaskRepository.fixUpTasksWithComplaints();
 	}
+
+	//support methods
+	public FixUpTask saveForAppTest(final FixUpTask fixuptask) {
+		return this.fixUpTaskRepository.save(fixuptask);
+	}
+
+	public Collection<FixUpTask> findByCustomerForEndorsementService(final Customer customer) {
+		return this.fixUpTaskRepository.findByCustomerId(customer.getId());
+	}
 }

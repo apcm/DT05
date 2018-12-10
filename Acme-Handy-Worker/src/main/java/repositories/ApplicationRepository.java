@@ -37,7 +37,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("select count(a1)*1.0 / (select count(a2)*1.0 from Application a2) from Application a1 where a1.status = 'rejected'")
 	double rejectedApplications();
 
-	@Query("select count(a1)/(select count(a2) from Application a2) from Application a1 where a1.status = 'pending' and a1.fixUpTask.endDate > current_timestamp()")
+	@Query("select count(a1)*1.0/(select count(a2)*1.0 from Application a2) from Application a1 where a1.status = 'pending' and a1.fixUpTask.endDate < current_timestamp()")
 	double elapsedApplications();
 
 	@Query("select avg(o.amount), min(o.amount), max(o.amount),stddev(o.amount) from Application a join a.offeredPrice o")

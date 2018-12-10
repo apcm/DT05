@@ -67,6 +67,7 @@ public class EndorsementServiceTest extends AbstractTest {
 			System.out.println(endCust.getComment());
 			endCust.setComment("ejemplo");
 			final Endorsement endSavedByCust = this.endorsementService.saveByCustomer(endCust);
+			System.out.println("Endorsement saved by customer");
 			Assert.notNull(endSavedByCust);
 			final Collection<Endorsement> endsCust2 = this.endorsementService.findByCustomer();
 			final ArrayList<Endorsement> sbc2 = new ArrayList<>();
@@ -80,42 +81,49 @@ public class EndorsementServiceTest extends AbstractTest {
 			final Endorsement endCustDel = copiaEndsCust.get(1);
 			System.out.println("Endorsement para delete: " + endCustDel);
 			this.endorsementService.deleteByCustomer(endCustDel);
+			System.out.println("Endorsement deleted by customer");
 			final Collection<Endorsement> deleteList = this.endorsementService.findByCustomer();
 			System.out.println("DeleteList: " + deleteList);
 			Assert.isTrue(!deleteList.contains(endCustDel));
 
-			//			super.unauthenticate();
-			//			super.authenticate("handyWorker");
-			//			//findByHandyWorker
-			//			System.out.println("Test findByHandyWorker");
-			//			final Collection<Endorsement> endsHw = this.endorsementService.findByHandyWorker();
-			//			System.out.println(endsHw);
-			//			Assert.notNull(endsHw);
+			System.out.println("DeleteByCustomer working");
 
-			//			//saveByHandyWorker
-			//			System.out.println("Test saveByHandyWorker");
-			//			final ArrayList<Endorsement> sbh = new ArrayList<>();
-			//			sbh.addAll(endsHw);
-			//			final Endorsement endHw = sbh.get(1);
-			//			System.out.println(endHw.getComment());
-			//			endHw.setComment("ejemplo");
-			//			final Endorsement endSavedByHw = this.endorsementService.saveByCustomer(endHw);
-			//			Assert.notNull(endSavedByHw);
-			//			final Collection<Endorsement> endsHw2 = this.endorsementService.findByCustomer();
-			//			final ArrayList<Endorsement> sbh2 = new ArrayList<>();
-			//			sbh2.addAll(endsHw2);
-			//			final Endorsement endHw2 = sbh2.get(1);
-			//			System.out.println(endHw2.getComment());
-			//
-			//			//deleteByCustomer
-			//			final ArrayList<Endorsement> copiaEndsHw = new ArrayList<Endorsement>();
-			//			copiaEndsHw.addAll(endsHw);
-			//			final Endorsement endHwDel = copiaEndsHw.get(1);
-			//			System.out.println("Endorsement para delete: " + endHwDel);
-			//			this.endorsementService.deleteByCustomer(endHwDel);
-			//			final Collection<Endorsement> deleteListHw = this.endorsementService.findByCustomer();
-			//			System.out.println("DeleteListHw: " + deleteListHw);
-			//			Assert.isTrue(!deleteListHw.contains(endHwDel));
+			super.unauthenticate();
+			super.authenticate("handyWorker");
+			//findByHandyWorker
+			System.out.println("Test findByHandyWorker");
+			final Collection<Endorsement> endsHw = this.endorsementService.findByHandyWorker();
+			System.out.println(endsHw);
+			Assert.notNull(endsHw);
+
+			//saveByHandyWorker
+			System.out.println("Test saveByHandyWorker");
+			final ArrayList<Endorsement> sbh = new ArrayList<>();
+			sbh.addAll(endsHw);
+			final Endorsement endHw = sbh.get(1);
+			System.out.println(endHw.getComment());
+			endHw.setComment("ejemplo");
+			final Endorsement endSavedByHw = this.endorsementService.saveByHandyWorker(endHw);
+			System.out.println("Endorsement saved by handyWorker");
+			Assert.notNull(endSavedByHw);
+			final Collection<Endorsement> endsHw2 = this.endorsementService.findByHandyWorker();
+			final ArrayList<Endorsement> sbh2 = new ArrayList<>();
+			sbh2.addAll(endsHw2);
+			final Endorsement endHw2 = sbh2.get(1);
+			System.out.println(endHw2.getComment());
+
+			//deleteByCustomer
+			final ArrayList<Endorsement> copiaEndsHw = new ArrayList<Endorsement>();
+			copiaEndsHw.addAll(endsHw);
+			final Endorsement endHwDel = copiaEndsHw.get(1);
+			System.out.println("Endorsement para delete: " + endHwDel);
+			this.endorsementService.deleteByHandyWorker(endHwDel);
+			System.out.println("Endorsement deleted by HandyWorker");
+			final Collection<Endorsement> deleteListHw = this.endorsementService.findByHandyWorker();
+			System.out.println("DeleteListHw: " + deleteListHw);
+			Assert.isTrue(!deleteListHw.contains(endHwDel));
+
+			System.out.println("DeleteByHandyWorker working");
 
 			super.unauthenticate();
 			System.out.println("Success!");

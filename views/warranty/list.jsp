@@ -34,7 +34,7 @@
 	<spring:message code="warranty.finalMode" var="finalModeHeader" />
 	<display:column property="finalmode" title="${finalModeHeader}"	sortable="false" />
 	
-	<jstl:if test="${warrant.finalmode == false}">	
+	<jstl:if test="${warranty.finalmode == false}">	
 		<spring:message code="warranty.edit" />
 		<display:column>
 			<a href="warranty/administrator/edit.do?warrantyId=${warranty.id}"> <spring:message

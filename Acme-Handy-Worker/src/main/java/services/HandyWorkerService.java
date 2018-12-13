@@ -86,7 +86,6 @@ public class HandyWorkerService {
 		f.setAuthority(Authority.HANDYWORKER);
 		final List<Application> applications = new ArrayList<Application>();
 		final List<Phase> phases = new ArrayList<Phase>();
-		final List<Finder> finders = new ArrayList<Finder>();
 		newUser.addAuthority(f);
 
 		result.setBoxes(new ArrayList<Box>(predefined));
@@ -106,7 +105,7 @@ public class HandyWorkerService {
 		//TODO: Make name
 		result.setMake("");
 		result.setPlannedPhases(phases);
-		result.setFinders(finders);
+		result.setFinder(new Finder());
 		return result;
 	}
 	//9.2
@@ -150,7 +149,6 @@ public class HandyWorkerService {
 	public HandyWorker findByUserAccount(final UserAccount userAccount) {
 		HandyWorker res;
 		Assert.notNull(userAccount);
-
 		res = this.handyWorkerRepository.findByUserAccountId(userAccount.getId());
 
 		return res;

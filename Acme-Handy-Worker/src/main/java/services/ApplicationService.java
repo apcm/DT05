@@ -37,6 +37,9 @@ public class ApplicationService {
 	@Autowired
 	public HandyWorkerService		handyWorkerService;
 
+	@Autowired
+	public FixUpTaskService			fixUpTaskService;
+
 
 	//Constructor
 	public ApplicationService() {
@@ -224,7 +227,30 @@ public class ApplicationService {
 
 	public Application save(final Application application) {
 
-		return this.applicationRepository.save(application);
+		//		final Application res = this.applicationRepository.save(application);
+		final Application res = application;
+
+		//		final ArrayList<Application> futApps = new ArrayList<>();
+		//		final FixUpTask fut = res.getFixUpTask();
+		//		futApps.addAll(fut.getApplications());
+		//		futApps.add(res);
+		//		fut.setApplications(futApps);
+		//		final FixUpTask futSaved = this.fixUpTaskService.saveForTest(fut);
+		//		System.out.println("FUTS: " + this.fixUpTaskService.findAll());
+		//
+		//		//		final ArrayList<Application> hwApps = new ArrayList<>();
+		//		//		final HandyWorker hwForSave = this.handyWorkerService.findByPrincipal();
+		//		//		hwApps.addAll(hwForSave.getApplications());
+		//		//		hwApps.add(res);
+		//		//		hwForSave.setApplications(hwApps);
+		//		//final HandyWorker hwSaved = this.handyWorkerService.saveForTest(hwForSave);
+		//		System.out.println("HWs: " + this.handyWorkerService.findAll());
+		//
+		//		res.setFixUpTask(futSaved);
+		final Application result = this.applicationRepository.save(res);
+		//		System.out.println("Saved App: " + result);
+		//		System.out.println("FUTS 2: " + this.fixUpTaskService.findAll());
+		return result;
 	}
 
 	public Collection<Application> findAll() {

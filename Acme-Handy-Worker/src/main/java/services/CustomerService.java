@@ -231,4 +231,8 @@ public class CustomerService {
 		customer.setScore(score);
 		return this.customerRepository.save(customer);
 	}
+
+	public Customer saveForTest(final Customer cus) {
+		return this.customerRepository.saveAndFlush(cus);
+	}
 }

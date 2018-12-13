@@ -54,25 +54,59 @@ public class ApplicationServiceTest extends AbstractTest {
 
 			//			app.setMoment(new Date());
 			//			app.setStatus("pending");
-			//			final Money mon = new Money();
-			//			app.setOfferedPrice(mon);
+			//			//			final Money mon = new Money();
+			//			//			mon.setAmount(8.0);
+			//			//			mon.setCurrency("euros");
 			//			//			System.out.println(mon);
 			//			//			System.out.println(mon.getAmount());
 			//			//			System.out.println(mon.getCurrency());
+			//			//			app.setOfferedPrice(mon);
 			//			app.setComment("comment");
 			//			app.setRejectedCause("rejectedCause");
 			//			//			app.setCreditCard(new CreditCard());
-			//			//			app.setFixUpTask(new FixUpTask());
-			//			//			System.out.println(app.getFixUpTask());
+			//			final ArrayList<FixUpTask> futs = new ArrayList<>();
+			//			futs.addAll(this.fixUpTaskService.findAll());
+			//			final FixUpTask fut = futs.get(0);
+			//			System.out.println("FUT para la App: " + fut);
+			//			app.setFixUpTask(fut);
+			//			System.out.println("FUT de la App setted: " + app.getFixUpTask());
 			//			System.out.println(app);
 			//			saved = this.applicationService.save(app);
-			//			System.out.println(saved);
+			//
+			//			final ArrayList<Application> hwApps = new ArrayList<>();
+			//			final HandyWorker hwForSave = this.handyWorkerService.findByPrincipal();
+			//			hwApps.addAll(hwForSave.getApplications());
+			//			hwApps.add(saved);
+			//			hwForSave.setApplications(hwApps);
+			//			final HandyWorker hwSaved = this.handyWorkerService.saveForTest(hwForSave);
+			//			System.out.println("HW saved: " + hwSaved);
+			//			System.out.println("Apps del hw: " + hwSaved.getApplications());
+			//
+			//			final ArrayList<Application> futApps = new ArrayList<>();
+			//			futApps.addAll(fut.getApplications());
+			//			futApps.add(saved);
+			//			fut.setApplications(futApps);
+			//			final FixUpTask futSaved = this.fixUpTaskService.saveForTest(fut);
+			//			System.out.println("FUT saved: " + futSaved);
+			//			System.out.println("Apps de la FUT: " + futSaved.getApplications());
+			//
+			//			//			
+			//			//
+			//			//			final ArrayList<Application> hwApps = new ArrayList<>();
+			//			//			final HandyWorker hwForSave = this.handyWorkerService.findByPrincipal();
+			//			//			hwApps.addAll(hwForSave.getApplications());
+			//			//			hwApps.add(saved);
+			//			//			hwForSave.setApplications(hwApps);
+			//			//			final HandyWorker hwSaved = this.handyWorkerService.save(hwForSave);
+			//
+			//			System.out.println("App saved: " + saved);
 			//			System.out.println(this.applicationService.findAll());
 			//			Assert.isTrue(this.applicationService.findAll().contains(saved));
 
 			super.unauthenticate();
 
 			//findByCustomer
+			System.out.println("Test findByCustomer");
 			super.authenticate("customer");
 			final ArrayList<Customer> custs = new ArrayList<>();
 			custs.addAll(this.customerService.findAll());
@@ -125,6 +159,7 @@ public class ApplicationServiceTest extends AbstractTest {
 			super.unauthenticate();
 
 			//other methods
+			System.out.println("Testing other methods");
 			super.authenticate("admin");
 
 			final ArrayList<Application> everyApp = new ArrayList<>();
@@ -198,5 +233,4 @@ public class ApplicationServiceTest extends AbstractTest {
 			System.out.println("Error, " + e.getMessage() + "!");
 		}
 	}
-
 }

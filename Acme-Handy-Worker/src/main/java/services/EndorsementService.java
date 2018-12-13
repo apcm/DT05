@@ -147,21 +147,32 @@ public class EndorsementService {
 		//Recipient must be a handy worker who has been involved
 		//in any of his or her fix-up tasks
 		//TODO: Comprobar que el recipient es un handy worker
-		final HandyWorker recipient;
-		recipient = (HandyWorker) endorsement.getRecipient();
+		final Endorser recipient;
+		recipient = endorsement.getRecipient();
+		final HandyWorker hw = this.handyWorkerService.findByUserAccount(recipient.getUserAccount());
 		final Collection<FixUpTask> fixUpTasks = this.fixUpTaskService.findByCustomer();
 		final List<Application> applicationsCustomer = new ArrayList<Application>();
 		for (final FixUpTask f : fixUpTasks)
 			applicationsCustomer.addAll(f.getApplications());
 
 		boolean checkApp = false;
-		final Collection<Application> applicationsHandyWorker = this.applicationService.findByHandyWorkerForEndorsementService(recipient);
+		final Collection<Application> applicationsHandyWorker = this.applicationService.findByHandyWorkerForEndorsementService(hw);
 		for (final Application a : applicationsHandyWorker)
 			if (applicationsCustomer.contains(a)) {
 				checkApp = true;
 				break;
 			}
 		Assert.isTrue(checkApp);
+
+		final Collection<Endorsement> ends = this.endorsementRepository.findByCustomerId(sender.getId());
+		ends.remove(endorsement);
+		sender.setEndorsements(ends);
+		final Customer senderSaved = this.customerService.save(sender);
+
+		final Collection<Endorsement> ends2 = this.endorsementRepository.findByHandyWorkerId(hw.getId());
+		ends2.remove(endorsement);
+		hw.setEndorsements(ends2);
+		final HandyWorker hwSaved = this.handyWorkerService.saveForTest(hw);
 
 		this.endorsementRepository.delete(endorsement);
 
@@ -244,15 +255,16 @@ public class EndorsementService {
 
 		//Endorsement must be about a customer for whom he or she's worked
 		//TODO: Comprobar que el recipient es un customer
-		final Customer recipient;
-		recipient = (Customer) endorsement.getRecipient();
+		final Endorser recipient;
+		recipient = endorsement.getRecipient();
+		final Customer cus = this.customerService.findByUserAccount(recipient.getUserAccount());
 		final Collection<Application> applicationsHandy = this.applicationService.findByHandyWorker();
 		final List<FixUpTask> fixUpTaskHandy = new ArrayList<FixUpTask>();
 		for (final Application a : applicationsHandy)
 			fixUpTaskHandy.add(a.getFixUpTask());
 
 		boolean checkApp = false;
-		final Collection<FixUpTask> fixUpTaskCustomer = this.fixUpTaskService.findByCustomerForEndorsementService(recipient);
+		final Collection<FixUpTask> fixUpTaskCustomer = this.fixUpTaskService.findByCustomerForEndorsementService(cus);
 		for (final FixUpTask f : fixUpTaskCustomer)
 			if (fixUpTaskHandy.contains(f)) {
 				checkApp = true;
@@ -260,6 +272,15 @@ public class EndorsementService {
 			}
 		Assert.isTrue(checkApp);
 
+		final Collection<Endorsement> ends = this.endorsementRepository.findByHandyWorkerId(sender.getId());
+		ends.remove(endorsement);
+		sender.setEndorsements(ends);
+		final HandyWorker senderSaved = this.handyWorkerService.save(sender);
+
+		final Collection<Endorsement> ends2 = this.endorsementRepository.findByCustomerId(cus.getId());
+		ends2.remove(endorsement);
+		cus.setEndorsements(ends2);
+		final Customer cusSaved = this.customerService.saveForTest(cus);
 		this.endorsementRepository.delete(endorsement);
 
 	}

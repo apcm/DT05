@@ -77,11 +77,14 @@ public class EndorsementServiceTest extends AbstractTest {
 
 			//deleteByCustomer
 			final ArrayList<Endorsement> copiaEndsCust = new ArrayList<Endorsement>();
-			copiaEndsCust.addAll(endsCust);
+			copiaEndsCust.addAll(this.endorsementService.findByCustomer());
+			System.out.println("Lista ends: " + copiaEndsCust);
 			final Endorsement endCustDel = copiaEndsCust.get(1);
 			System.out.println("Endorsement para delete: " + endCustDel);
 			this.endorsementService.deleteByCustomer(endCustDel);
 			System.out.println("Endorsement deleted by customer");
+			final Collection<Endorsement> endsTotales = this.endorsementService.findAll();
+			System.out.println("Todas las ends: " + endsTotales);
 			final Collection<Endorsement> deleteList = this.endorsementService.findByCustomer();
 			System.out.println("DeleteList: " + deleteList);
 			Assert.isTrue(!deleteList.contains(endCustDel));
@@ -112,9 +115,9 @@ public class EndorsementServiceTest extends AbstractTest {
 			final Endorsement endHw2 = sbh2.get(1);
 			System.out.println(endHw2.getComment());
 
-			//deleteByCustomer
+			//deleteByHandyWorker
 			final ArrayList<Endorsement> copiaEndsHw = new ArrayList<Endorsement>();
-			copiaEndsHw.addAll(endsHw);
+			copiaEndsHw.addAll(endsHw2);
 			final Endorsement endHwDel = copiaEndsHw.get(1);
 			System.out.println("Endorsement para delete: " + endHwDel);
 			this.endorsementService.deleteByHandyWorker(endHwDel);
@@ -132,5 +135,4 @@ public class EndorsementServiceTest extends AbstractTest {
 			System.out.println("Error, " + e.getMessage() + "!");
 		}
 	}
-
 }

@@ -17,7 +17,7 @@ public class HandyWorker extends Endorser {
 
 	private Collection<Application>	applications;
 	private Collection<Phase>		plannedPhases;
-	private Collection<Finder>		finders;
+	private Finder					finder;
 	private Collection<Note>		notes;
 	private Curriculum				curriculum;
 
@@ -29,7 +29,6 @@ public class HandyWorker extends Endorser {
 	public void setMake(final String make) {
 		this.make = make;
 	}
-
 
 	@OneToMany
 	public Collection<Application> getApplications() {
@@ -49,13 +48,13 @@ public class HandyWorker extends Endorser {
 		this.plannedPhases = plannedPhases;
 	}
 
-	@OneToMany
-	public Collection<Finder> getFinders() {
-		return this.finders;
+	@OneToOne
+	public Finder getFinder() {
+		return this.finder;
 	}
 
-	public void setFinders(final Collection<Finder> finders) {
-		this.finders = finders;
+	public void setFinder(final Finder finder) {
+		this.finder = finder;
 	}
 
 	@OneToMany

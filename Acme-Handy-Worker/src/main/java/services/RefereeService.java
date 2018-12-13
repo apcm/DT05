@@ -60,18 +60,18 @@ public class RefereeService {
 
 		return res;
 	}
-	
-	Referee saveComplaint(Referee referee,Complaint complaint){
+
+	Referee saveComplaint(final Referee referee, final Complaint complaint) {
 		//Logged user must be an referee
-				final Authority a = new Authority();
-				final UserAccount user = LoginService.getPrincipal();
-				a.setAuthority(Authority.REFEREE);
-				Assert.isTrue(user.getAuthorities().contains(a));
-				
-		Collection<Complaint> c= referee.getComplaints();
+		final Authority a = new Authority();
+		final UserAccount user = LoginService.getPrincipal();
+		a.setAuthority(Authority.REFEREE);
+		Assert.isTrue(user.getAuthorities().contains(a));
+
+		final Collection<Complaint> c = referee.getComplaints();
 		c.add(complaint);
 		referee.setComplaints(c);
-		return refereeRepository.save(referee);
+		return this.refereeRepository.save(referee);
 	}
 
 	//Returns logged customer
@@ -96,11 +96,19 @@ public class RefereeService {
 
 		return res;
 	}
-	public Referee findByReport(final Report report){
+	public Referee findByReport(final Report report) {
 		Referee res;
 		Assert.notNull(report);
 
-		res=this.refereeRepository.findByReportId(report.getId());
-	return res;
+		res = this.refereeRepository.findByReportId(report.getId());
+		return res;
+	}
+
+	public Referee save(final Referee r) {
+		return this.refereeRepository.save(r);
+	}
+
+	public Collection<Referee> findAll() {
+		return this.refereeRepository.findAll();
 	}
 }

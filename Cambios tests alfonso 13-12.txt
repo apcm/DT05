@@ -1,0 +1,77 @@
+- arreglado findByComplaint de CustomerRepository
+- borrado "complaintsNoReferee" y arreglado complaintsWithNoReferee de ComplaintRepository
+- quitado "autowired" en ReportService de NoteService
+- quitadas queries de NoteRepository
+
+04/12
+
+- borrado todos los assert que comprueben en los save que el id!=0
+- ARREGLADO ActorServiceTest (falta SuspiciousActors)
+- ARREGLADO AdministratorServiceTest
+- problemas en ApplicationServiceTest debido a Money y CreditCard (faltan métodos por probar)
+- cambiado el Assert.isNull del predefinded del save de BoxService por notNull
+- ARREGLADO BoxServiceTest
+- quitado assert que comprueba que el id!=0 en categoryService save
+- ARREGLADO CategoryServiceTest
+- ARREGLADO CustomisationServiceTest
+- ARREGLADO EndorsementServiceTest (faltan métodos)
+- añadido saveForTest en FinderService
+- problemas en FinderServiceTest debido a Money (faltan métodos)
+- cambiado en el create de HandyWorkerService "result.setUserAccount(user);" por "result.setUserAccount(newUser);"
+- eliminado comprobación de log en el create de HandyWorkerService
+- cambiado en save de HandyWorkerService en los comentarios "customer" por "handyworker"
+- añadido saveForTest en HandyWorkerService
+- arreglado log en topThreeHandyWorkersByComplaints de HandyWorkerService
+-ARREGLADO HandyWorkerService (faltan métodos)
+
+09/12
+
+- ARREGLADO ActorServiceTest al completo
+- arreglado la comprobación de status de saveByCustomer de ApplicationService
+- ARREGLADO findByCustomer y saveByCustomer en ApplicationServiceTest (errores en findByHandyWorker y comprobar el resto cuando se arreglen los problemas en el save)
+- añadido en Populate a Customer2 los endorsements 4, 14, 17 y 19
+- Hay que arreglar el FindByHandyWorker de ApplicationService para el saveByCustomer y deleteByCustomer de EndorsementService
+- hay que arreglar el FindByHandyWorker de EndorsementService para el resto de métodos de EndorsementServiceTest
+- hay que arreglar los problemas de Money para comprobar el FinderServiceTest
+- problemas en HandyWorkerTest porque LAS BEANS DEL POPULATE DE HANDYWORKER TIENEN LA MISMA USERACCOUNT y no se puede hacer el findByUserAccount
+
+10/12
+
+- añadidas en Populate las userAccount 8, 9, 10 y 11, que son HandyWorkers, y asignadas a los HandyWorker 2, 3, 4 y 5, para que no coincidan userAccounts
+- eliminadas endorsement 17 y 19 del customer2
+- añadido super.unauthenticate() al final del test de suspiciousActors
+- arreglada query de elapsedApplications en ApplicationRepository, añadiendo *1.0 en los count para hacerlo double y poniendo el sentido de < entre el endDate y el current
+- añadido saveForAppTest en FixUpTaskService para probar elapsedApplications en ApplicationServiceTest
+- ARREGLADO ApplicationServiceTest al completo (falta arreglar los Money y CreditCard para el create)
+- creado método findByHandyWorkerForEndorsementService en ApplicationService para reemplazar el findByHandyWorker del método saveByCustomer de EndorsementService
+- intercambiadas en Populate las Applications asignadas al HandyWorker 1 y 3 para que coincidan las aplications de los endorsements en común de Customer2 y HandyWorker 1 (la Application3 ahora pertenece a HandyWorker1)
+- arreglado saveByCustomer de EndorsementService
+- creado método findByCustomerForEndorsementService en FixUpTaskService para reemplazar el findByCustomer del método saveByHandyWorker de EndorsementService
+- intercambiadas FixUpTasks 1 y 3 para Customer 1 y 2, para que coincida con el sender de su endorsement16 (ahora Customer1 tiene la FixUpTask3)
+- intercambiadas Applications 3 y 2 de HandyWorker 1 y 2 (ahora HandyWorker1 tiene Application2)
+- cambiado recipient de endorsement16 de Customer1 a Customer2
+- arreglado deleteByHandyWorker de EndorsementService
+- ARREGLADO EndorsementServiceTest (falta un error de SQL despues de hacer delete de customer y handyWorker)
+
+- cambiada multiplicidad: ahora una FixUpTask tiene sólo un Finder
+
+11/12
+
+- ARREGLADO EndorsementServiceTest
+- añadido método saveForTest en CustomerService
+- añadido método saveForTest en FixUpTaskService
+- arreglado save de ApplicationService
+- Hay que arreglar TopThreeCustomersByComplaints en CustomerRepository
+
+12/12
+
+* ARREGLADO ApplicationServiceTest (si da problemas crear una Application en el futuro, revisar)(lo mismo con Tutorial)(lo mismo con Report)
+- añadido @Repository en ReportRepository
+- añadido @Service y @Transactional en ReportService
+- ARREGLADO HandyWorkerServiceTest
+- problema en FinderServiceTest en saveResultFixUpTask
+- ARREGLADO ReportServiceTest (ver *)
+
+13/12
+
+- ARREGLADO WarrantyServiceTest

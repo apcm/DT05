@@ -37,9 +37,10 @@ public class WarrantyServiceTest extends AbstractTest {
 		final Collection<String> ccm = new ArrayList<>();
 		final Collection<String> nw = new ArrayList<>();
 		final Collection<String> pw = new ArrayList<>();
+		super.authenticate("admin");
 		war = this.warrantyService.create();
 		try {
-			super.authenticate("admin");
+
 			war.setTitle("title");
 			war.setTerms("terms");
 			war.setApplicableLaws("laws");

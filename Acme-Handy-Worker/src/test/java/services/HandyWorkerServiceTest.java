@@ -19,6 +19,7 @@ import utilities.AbstractTest;
 import domain.Application;
 import domain.Box;
 import domain.Curriculum;
+import domain.Customisation;
 import domain.Endorsement;
 import domain.Finder;
 import domain.HandyWorker;
@@ -35,10 +36,16 @@ public class HandyWorkerServiceTest extends AbstractTest {
 
 	//Service
 	@Autowired
-	private HandyWorkerService	handyWorkerService;
+	private HandyWorkerService		handyWorkerService;
 
 	@Autowired
-	private CurriculumService	curriculumService;
+	private CurriculumService		curriculumService;
+
+	@Autowired
+	private FinderService			finderService;
+
+	@Autowired
+	private CustomisationService	customisationService;
 
 
 	//Test
@@ -48,7 +55,6 @@ public class HandyWorkerServiceTest extends AbstractTest {
 		final HandyWorker hw, saved;
 		final Collection<Application> app = new ArrayList<>();
 		final Collection<Phase> pph = new ArrayList<>();
-		final Collection<Finder> fin = new ArrayList<>();
 		final Collection<Note> notes = new ArrayList<>();
 		final Collection<Box> boxes = new ArrayList<>();
 		final Collection<SocialProfile> sps = new ArrayList<>();
@@ -71,7 +77,10 @@ public class HandyWorkerServiceTest extends AbstractTest {
 			hw.setMake("make");
 			hw.setApplications(app);
 			hw.setPlannedPhases(pph);
-			hw.setFinders(fin);
+			final ArrayList<Finder> finds = new ArrayList<>();
+			finds.addAll(this.finderService.findAll());
+			final Finder fin = finds.get(0);
+			hw.setFinder(fin);
 			hw.setNotes(notes);
 			final ArrayList<Curriculum> curs = new ArrayList<>();
 			curs.addAll(this.curriculumService.findAll());
@@ -108,6 +117,40 @@ public class HandyWorkerServiceTest extends AbstractTest {
 			//37.2?
 
 			super.unauthenticate();
+			System.out.println("Success!");
+
+		} catch (final Exception e) {
+			System.out.println("Error, " + e.getMessage() + "!");
+		}
+	}
+
+	@Test
+	public void saveScoreTest() {
+		System.out.println("------------Test saveScore------------");
+		super.authenticate("admin");
+		try {
+			final ArrayList<HandyWorker> hws = new ArrayList<>();
+			hws.addAll(this.handyWorkerService.findAll());
+			final HandyWorker hw = hws.get(0);
+
+			final ArrayList<Customisation> cuss = new ArrayList<>();
+			cuss.addAll(this.customisationService.findAll());
+			final Customisation cus = cuss.get(0);
+			System.out.println("Negative words: " + cus.getNegativeWords());
+			System.out.println("Positive words: " + cus.getPositiveWords());
+
+			final ArrayList<Endorsement> ends = new ArrayList<>();
+			ends.addAll(hw.getEndorsements());
+			final Endorsement end = ends.get(0);
+			end.setComment("bad fantastic excellent great");
+			System.out.println("Comment: " + end.getComment());
+
+			System.out.println("Actual score: " + hw.getScore());
+			final HandyWorker savedScore = this.handyWorkerService.saveScore(hw, cus);
+			System.out.println("New score: " + savedScore.getScore());
+
+			Assert.isTrue(savedScore.getScore().equals(2));
+
 			System.out.println("Success!");
 
 		} catch (final Exception e) {

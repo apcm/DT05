@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ReportRepository;
@@ -16,6 +18,8 @@ import domain.Complaint;
 import domain.Note;
 import domain.Report;
 
+@Service
+@Transactional
 public class ReportService {
 
 	@Autowired

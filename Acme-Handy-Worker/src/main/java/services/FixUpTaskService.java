@@ -169,8 +169,11 @@ public class FixUpTaskService {
 		a.setAuthority(Authority.HANDYWORKER);
 		Assert.isTrue(user.getAuthorities().contains(a));
 
-		Collection<FixUpTask> res;
-		res = this.fixUpTaskRepository.fixUpTaskFilterByKeyword(keyword);
+		final ArrayList<FixUpTask> res = new ArrayList<>();
+		System.out.println("antes de la query");
+		System.out.println("res: " + this.fixUpTaskRepository.fixUpTaskFilterByKeyword(keyword));
+		res.addAll(this.fixUpTaskRepository.fixUpTaskFilterByKeyword(keyword));
+		System.out.println("FUTs: " + res);
 		return res;
 
 	}
@@ -279,5 +282,9 @@ public class FixUpTaskService {
 
 	public Collection<FixUpTask> findByCustomerForEndorsementService(final Customer customer) {
 		return this.fixUpTaskRepository.findByCustomerId(customer.getId());
+	}
+
+	public FixUpTask saveForTest(final FixUpTask fut) {
+		return this.fixUpTaskRepository.save(fut);
 	}
 }

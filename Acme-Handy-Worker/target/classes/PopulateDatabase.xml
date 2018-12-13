@@ -165,11 +165,7 @@
 				<ref bean="Application2"/>
 			</list>
 		</property>
-		<property name="finders">
-			<list>  
-					<ref bean="finder1"/>
-			</list>
-		</property>
+		<property name="finder" ref="finder1"/>
 		<property name="plannedPhases">
 			<list>
 					<ref bean="phase1"/>
@@ -207,12 +203,7 @@
 					<ref bean="Application3"/>
 			</list>
 		</property>
-		<property name="finders">
-			<list>
-					<ref bean="finder2"/>
-				
-			</list>
-		</property>
+		<property name="finder" ref="finder2"/>
 		<property name="plannedPhases">
 			<list>
 					<ref bean="phase2"/>
@@ -243,11 +234,7 @@
 			<ref bean="Application1"/>	
 			</list>
 		</property>
-		<property name="finders">
-			<list> 
-					<ref bean="finder3"/>
-			</list>
-		</property>
+		<property name="finder" ref="finder3"/>
 		<property name="plannedPhases">
 			<list>
 					<ref bean="phase3"/>
@@ -279,11 +266,7 @@
 				<ref bean="Application4"/>	
 			</list>
 		</property>
-		<property name="finders">
-			<list> 
-					<ref bean="finder4"/>
-			</list>
-		</property>
+		<property name="finder" ref="finder4"/>
 		<property name="plannedPhases">
 			<list>
 					<ref bean="phase4"/>
@@ -314,11 +297,7 @@
 				<ref bean="Application5"/>	
 			</list>
 		</property>
-		<property name="finders">
-			<list> 
-					<ref bean="finder5"/>
-			</list>
-		</property>
+			<property name="finder" ref="finder5"/>
 		<property name="plannedPhases">
 			<list>
 					<ref bean="phase5"/>
@@ -1092,6 +1071,7 @@
 		<property name="complaints" >
 			<list>
 				<ref bean="complaint6"></ref>
+				<ref bean="complaint8"></ref>
 			</list>
 		</property>
 		<property name="applications" >
@@ -1794,6 +1774,14 @@
 		<property name="description" value="Problems"/>
 		<property name="attachments" value="http://attach7.com"/>
 		<property name="fixUpTask" ref="FixUpTask1"/>
+	</bean>
+	
+	<bean id="complaint8" class="domain.Complaint">
+		<property name="ticker" value="081219-HI86EB"/>
+		<property name="moment" value="10/08/2010"/>
+		<property name="description" value="Problems"/>
+		<property name="attachments" value="http://attach7.com"/>
+		<property name="fixUpTask" ref="FixUpTask2"/>
 	</bean>
 	
 <!-- Category -->

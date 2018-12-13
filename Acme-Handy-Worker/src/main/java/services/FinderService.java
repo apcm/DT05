@@ -77,7 +77,7 @@ public class FinderService {
 		final HandyWorker logHandyWorker;
 		logHandyWorker = this.handyWorkerService.findByPrincipal();
 		Assert.notNull(logHandyWorker);
-		Assert.isTrue(logHandyWorker.getFinders().contains(finder));
+		Assert.isTrue(logHandyWorker.getFinder().equals(finder));
 
 		final Finder f;
 		f = this.finderRepository.save(finder);
@@ -99,21 +99,33 @@ public class FinderService {
 		final HandyWorker logHandyWorker;
 		logHandyWorker = this.handyWorkerService.findByPrincipal();
 		Assert.notNull(logHandyWorker);
-		Assert.isTrue(logHandyWorker.getFinders().contains(finder));
+		Assert.isTrue(logHandyWorker.getFinder().equals(finder));
 
 		final Finder f;
 		final Collection<FixUpTask> results = new ArrayList<FixUpTask>();
-		if (finder.getKeyWord() != null || finder.getKeyWord() != "")
+		if (finder.getKeyWord() != null || finder.getKeyWord() != "") {
+			System.out.println("caso 1");
+			System.out.println(finder.getKeyWord());
 			results.addAll(this.fixUpTaskService.fixUpTaskFilterByKeyword(finder.getKeyWord()));
-		if (finder.getCategory() != null || finder.getCategory() != "")
+		}
+		if (finder.getCategory() != null || finder.getCategory() != "") {
+			System.out.println("caso 2");
 			results.addAll(this.fixUpTaskService.fixUpTaskFilterByCategory(finder.getCategory()));
-		if (finder.getWarranty().getId() != 0 || finder.getWarranty().getId() != 0)
+		}
+		if (finder.getWarranty().getId() != 0 || finder.getWarranty().getId() != 0) {
+			System.out.println("caso 3");
 			results.addAll(this.fixUpTaskService.fixUpTaskFilterByWarranty(finder.getWarranty().getId()));
-		if (finder.getStartDate() != null && finder.getEndDate() != null)
+		}
+		if (finder.getStartDate() != null && finder.getEndDate() != null) {
+			System.out.println("caso 4");
 			results.addAll(this.fixUpTaskService.fixUpTaskFilterByRangeOfDates(finder.getStartDate(), finder.getEndDate()));
-		if (finder.getMinPrice() != null && finder.getMaxPrice() != null)
+		}
+		if (finder.getMinPrice() != null && finder.getMaxPrice() != null) {
+			System.out.println("caso 5");
 			results.addAll(this.fixUpTaskService.fixUpTaskFilterByRangeOfPrices(finder.getMinPrice().getAmount(), finder.getMaxPrice().getAmount()));
+		}
 		finder.setFixUpTasks(results);
+		System.out.println("antes de save ok");
 		f = this.save(finder);
 		return f;
 	}

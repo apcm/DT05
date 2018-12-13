@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -14,7 +15,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Finder;
-import domain.Money;
+import domain.HandyWorker;
 import domain.Warranty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,7 +27,13 @@ public class FinderServiceTest extends AbstractTest {
 
 	//Service
 	@Autowired
-	private FinderService	finderService;
+	private FinderService		finderService;
+
+	@Autowired
+	private WarrantyService		warrantyService;
+
+	@Autowired
+	private HandyWorkerService	handyWorkerService;
 
 
 	//Test
@@ -40,17 +47,26 @@ public class FinderServiceTest extends AbstractTest {
 		try {
 			fin.setKeyWord("finder");
 			fin.setCategory("category");
-			fin.setMinPrice(new Money());
-			fin.setMaxPrice(new Money());
+			//			fin.setMinPrice(new Money());
+			//			fin.setMaxPrice(new Money());
 			fin.setStartDate(new Date());
 			fin.setEndDate(new Date());
-			fin.setWarranty(new Warranty());
+
+			final ArrayList<Warranty> wars = new ArrayList<>();
+			wars.addAll(this.warrantyService.findAll());
+			final Warranty war = wars.get(0);
+			fin.setWarranty(war);
 			saved = this.finderService.saveForTest(fin);
 			Assert.isTrue(this.finderService.findAll().contains(saved));
 
 			//saveResultsFixUpTasks
-			final Finder finSRFUT = this.finderService.finderById(2391);
+			System.out.println("Test saveREsultsFixUpTasks");
+			final HandyWorker hw = this.handyWorkerService.findByPrincipal();
+			System.out.println("Hw logged: " + hw);
+			final Finder finSRFUT = this.finderService.finderById(hw.getFinder().getId());
+			Assert.notNull(finSRFUT);
 			System.out.println("Finder: " + finSRFUT);
+			finSRFUT.setKeyWord("FixUp");
 			final Finder fin2 = this.finderService.saveResultsFixUpTasks(finSRFUT);
 			Assert.notNull(fin2);
 

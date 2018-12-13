@@ -25,4 +25,9 @@
 		<put-attribute name="title" value="Datos personales" />
 		<put-attribute name="body" value="/views/sponsor/show.jsp" />
 	</definition>
+
+	<definition name="sponsor/register" extends="master.page">	
+		<put-attribute name="title" value="Registrar anunciante" />
+		<put-attribute name="body" value="/views/sponsor/register.jsp" />
+	</definition>
 </tiles-definitions>

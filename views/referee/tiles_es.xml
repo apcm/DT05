@@ -24,4 +24,9 @@
 		<put-attribute name="title" value="Datos personales" />
 		<put-attribute name="body" value="/views/referee/show.jsp" />
 	</definition>
+	
+	<definition name="referee/register" extends="master.page">	
+		<put-attribute name="title" value="Registrar árbitro" />
+		<put-attribute name="body" value="/views/referee/register.jsp" />
+	</definition>
 </tiles-definitions>

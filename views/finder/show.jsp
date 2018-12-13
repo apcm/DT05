@@ -56,14 +56,30 @@
 	</p>
 	<jstl:forEach var="res" items="${finder.fixUpTasks}">
 		<jstl:out value="${res}"/>
+		<a href="finder/handyworker/edit.do?finderId=${finder.id}" ><spring:message code="finder.edit" /></a>
 	</jstl:forEach>
 	
+	<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="finder.fixUpTasks" requestURI="${requestURI}" id="row">
+	
+	<display:column property="ticker" titleKey="fixUpTask.ticker" />
+	<display:column property="description" titleKey="fixUpTask.description" />
+	<display:column property="maximumPrice" titleKey="fixUpTask.maximumPrice" />
+	<display:column property="startDate" titleKey="fixUpTask.startDate" />
+	<display:column property="endDate" titleKey="fixUpTask.endDate" />
+	
+	<display:column>
+		<a href="fixUpTask/handyworker/show.do?fixUpTaskId=${fixUpTask.id}"> <spring:message
+					code="fixUpTask.show.link" />
+		</a>
+	</display:column>
+
+</display:table>
 	
 	<p>
 	<a href="finder/handyworker/edit.do?finderId=${finder.id}" ><spring:message code="finder.edit" /></a>
 	</p>	
 	
-
 	<input type="button" name="back" onclick="javascript: window.location.replace('welcome/index.do')"
 		value="<spring:message code="finder.back" />" />
 	

@@ -49,7 +49,7 @@
 	</security:authorize>
 </display:table>
 </security:authorize>
-
+<!-- 
 <security:authorize access="hasRole('HANDYWORKER')">
 	<div>
 		<a href="application/handyworker/create.do"> <spring:message
@@ -58,3 +58,4 @@
 	</div>
 </security:authorize>
 
+ -->

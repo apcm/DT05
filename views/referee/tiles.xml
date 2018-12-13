@@ -19,4 +19,9 @@
 		<put-attribute name="title" value="Edit referee" />
 		<put-attribute name="body" value="/views/referee/edit.jsp" />
 	</definition>
+	
+	<definition name="referee/show" extends="master.page">	
+		<put-attribute name="title" value="Personal data" />
+		<put-attribute name="body" value="/views/referee/show.jsp" />
+	</definition>
 </tiles-definitions>
